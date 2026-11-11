@@ -43,21 +43,6 @@ icons/
   icon-maskable-192.png   # 192x192, purpose "maskable"
   icon-maskable-512.png   # 512x512, purpose "maskable"
 ```
-
-Os ícones incluídos são provisórios: substitua pelos seus, mantendo os nomes e tamanhos. Nos ícones *maskable*, mantenha o desenho dentro dos 80% centrais da imagem (zona segura). O PWA só instala em HTTPS (GitHub Pages serve) ou em `localhost`.
-
-Tags no `<head>` do `index.html` (já incluídas):
-
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#171a21">
-<link rel="icon" type="image/png" href="icons/icon-192.png">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-```
-
-No `manifest.json`, `start_url` e `scope` estão como `/`. Se o site ficar em subpasta (por exemplo, `usuario.github.io/liquify/`), troque os dois e o `id` por `./`.
-
 ## Notch e barra de status
 
 O layout usa `viewport-fit=cover` e margens com `env(safe-area-inset-*)`. Em telas de toque, o topo ganha no mínimo 16 px de respiro, e o cabeçalho tem espaçamento interno próprio, então logo e botões não ficam sob o notch ou a ilha dinâmica.
