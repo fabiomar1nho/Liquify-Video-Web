@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Liquify Vídeo</title>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#0f1115;--p:#171a21;--p2:#1e222b;--bd:#2a2f3a;--tx:#e6e9ef;--mu:#8b93a3;--ac:#6c8cff;--ac2:#4ade80;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font:13px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{height:100%;display:grid;grid-template-rows:48px 1fr auto}
+header{display:flex;gap:8px;align-items:center;padding:0 12px;background:var(--p);border-bottom:1px solid var(--bd)}
+header b{margin-right:auto;letter-spacing:.3px}
+button,select{background:var(--p2);color:var(--tx);border:1px solid var(--bd);border-radius:7px;padding:6px 10px;font:inherit;cursor:pointer}
+button:hover{border-color:var(--ac)}button:disabled{opacity:.4;cursor:default}
+button.pri{background:var(--ac);border-color:var(--ac);color:#fff}button.on{border-color:var(--ac2);color:var(--ac2)}
+main{display:grid;grid-template-columns:250px 1fr;min-height:0}
+aside{background:var(--p);border-right:1px solid var(--bd);padding:12px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+aside h4{margin:6px 0 0;font-size:11px;text-transform:uppercase;color:var(--mu);letter-spacing:.8px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+label{display:flex;flex-direction:column;gap:2px;color:var(--mu)}label span{display:flex;justify-content:space-between}
+input[type=range]{width:100%;accent-color:var(--ac)}
+#stage{position:relative;min-width:0;min-height:0;background:#07080b;touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;cursor:none}
+#cur{position:absolute;border:1.5px solid #fff;border-radius:50%;pointer-events:none;box-shadow:0 0 0 1px #000a;display:none}
+#sl{position:absolute;top:0;bottom:0;width:2px;background:var(--ac2);pointer-events:none;display:none}
+#empty{position:absolute;inset:0;display:grid;place-items:center;color:var(--mu);pointer-events:none;text-align:center;padding:20px}
+#tl{background:var(--p);border-top:1px solid var(--bd);padding:8px 12px;display:grid;gap:6px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#bar{position:relative;flex:1;min-width:160px;height:26px}#bar input{position:absolute;inset:0;margin:0;top:4px}
+#mk{position:absolute;left:0;right:0;top:0;height:8px}#mk i{position:absolute;top:0;width:6px;height:8px;margin-left:-3px;background:#fbbf24;border-radius:2px;cursor:pointer}
+#st{color:var(--mu);min-height:18px}#pg{height:4px;background:var(--bd);border-radius:2px;overflow:hidden;display:none}#pg i{display:block;height:100%;width:0;background:var(--ac)}
+#ov{position:fixed;inset:0;z-index:100;background:#000c;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.box{width:min(440px,90vw);background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:20px;display:grid;gap:12px}.box h3{margin:0}
+.pb{height:10px;background:var(--bd);border-radius:5px;overflow:hidden}.pb i{display:block;height:100%;width:0;background:var(--ac)}
+.r2{display:flex;justify-content:space-between;gap:10px;color:var(--mu)}.r2 b{color:var(--tx);font-size:18px}
+@media(max-width:760px){main{grid-template-columns:1fr;grid-template-rows:auto 1fr}aside{max-height:34vh;border-right:0;border-bottom:1px solid var(--bd)}}
+</style></head><body>
+<div id="app">
+<header><b>◐ Liquify Vídeo</b>
+<button id="imp" class="pri">Importar vídeo</button><input id="file" type="file" accept="video/*" hidden>
+<button id="undo" title="Ctrl+Z">↶ Desfazer</button><button id="redo" title="Ctrl+Y">↷ Refazer</button>
+<select id="cap"><option value="orig">Resolução original</option><option value="1080">Máx. 1080p</option></select>
+<button id="exp" class="pri">Exportar</button></header>
+<main>
+<aside>
+<h4>Ferramentas</h4>
+<div class="tools"><button data-t="grow" class="on">＋ Grow</button><button data-t="shrink">－ Shrink</button><button data-t="push">⇢ Push</button><button data-t="smooth">≈ Smooth</button></div>
+<h4>Pincel</h4>
+<label><span>Tamanho <em id="vs">40</em></span><input id="size" type="range" min="4" max="100" value="40"></label>
+<label><span>Intensidade <em id="vi">40</em></span><input id="int" type="range" min="1" max="100" value="40"></label>
+<label><span>Suavidade <em id="vf">70</em></span><input id="soft" type="range" min="5" max="100" value="70"></label>
+<h4>Resultado</h4>
+<label><span>Força total <em id="va">100</em>%</span><input id="amt" type="range" min="0" max="200" value="100"></label>
+<button id="cmp">Antes / Depois</button>
+<label><span>Comparação dividida</span><input id="split" type="range" min="0" max="100" value="0"></label>
+<h4>Rastreamento</h4>
+<button id="trk">Rastrear região</button>
+<button id="rst">Limpar tudo</button>
+<div id="st">Importe um vídeo para começar.</div><div id="pg"><i></i></div>
+</aside>
+<div id="stage"><canvas id="c"></canvas><div id="cur"></div><div id="sl"></div>
+<div id="empty">Importe um vídeo.<br>Fluxo: pintar com Grow → Rastrear região → Reproduzir → Exportar.</div></div>
+</main>
+<div id="tl">
+<div class="row"><button id="play">▶ Play</button><button id="fb">◀ Quadro</button><button id="ff">Quadro ▶</button>
+<select id="spd"><option value=".25">0.25×</option><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select>
+<button id="mkb">⚑ Marcador</button><span id="tm">0:00.00</span></div>
+<div id="bar"><div id="mk"></div><input id="scr" type="range" min="0" max="1000" value="0"></div>
+</div></div>
+<div id="ov"><div class="box"><h3>Exportando vídeo</h3><div id="ot">Preparando…</div>
+<div class="pb"><i id="ob"></i></div><div class="r2"><b id="op">0%</b><span id="os"></span></div>
+<button id="ocan">Cancelar exportação</button></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const video=document.createElement('video');video.playsInline=true;video.preload='auto';
+const cv=$('c'),gl=cv.getContext('webgl2',{preserveDrawingBuffer:false});
+let tool='grow',N=256,field=new Float32Array(N*N*2),undoS=[],redoS=[],dabs=[],anchors=null,tracks=[],aFrame=0,fps=30,markers=[],busy=false,vw=0,vh=0,showOrig=false,loaded=false;
+let trk={c1:[0,0],a1:[0,0],s:1,ca:1,sa:0};
+const say=t=>$('st').textContent=t;
+if(!gl){say('WebGL2 não disponível neste navegador.')}
+// ---------- WebGL ----------
+const VS=`#version 300 es
+in vec2 p;out vec2 u;void main(){u=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0,1);}`;
+const FS=`#version 300 es
+precision highp float;in vec2 u;out vec4 o;
+uniform sampler2D vid,fld;uniform vec2 res,c1,a1;uniform float s,ca,sa,amt,split;uniform int on;const float N=${N}.;
+vec2 F(vec2 q){vec2 uv=q/res;if(uv.x<0.||uv.y<0.||uv.x>1.||uv.y>1.)return vec2(0);
+vec2 g=uv*N-.5;ivec2 i=ivec2(floor(g));vec2 f=fract(g);ivec2 m=ivec2(int(N)-1);
+vec2 a=texelFetch(fld,clamp(i,ivec2(0),m),0).xy,b=texelFetch(fld,clamp(i+ivec2(1,0),ivec2(0),m),0).xy,
+c=texelFetch(fld,clamp(i+ivec2(0,1),ivec2(0),m),0).xy,d=texelFetch(fld,clamp(i+ivec2(1),ivec2(0),m),0).xy;
+return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
+void main(){vec2 p=u*res;vec2 src=p;
+if(on==1&&u.x>=split){vec2 d0=p-c1;vec2 q=a1+s*vec2(ca*d0.x-sa*d0.y,sa*d0.x+ca*d0.y);
+vec2 r=q+F(q)*amt;vec2 e=r-a1;src=c1+(1./s)*vec2(ca*e.x+sa*e.y,-sa*e.x+ca*e.y);}
+o=vec4(texture(vid,src/res).rgb,1);}`;
+let prog,U={},vt,ft;
+function initGL(){
+ const mk=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(x));return x};
+ prog=gl.createProgram();gl.attachShader(prog,mk(gl.VERTEX_SHADER,VS));gl.attachShader(prog,mk(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);gl.useProgram(prog);
+ const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+ const l=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+ ['vid','fld','res','c1','a1','s','ca','sa','amt','split','on'].forEach(n=>U[n]=gl.getUniformLocation(prog,n));
+ const tex=(unit,f)=>{const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,t);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,f);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t};
+ vt=tex(0,gl.LINEAR);ft=tex(1,gl.NEAREST);gl.uniform1i(U.vid,0);gl.uniform1i(U.fld,1);
+}
+let fieldDirty=true;
+function draw(){
+ if(!gl||!loaded||video.readyState<2)return;
+ updTrk();
+ gl.viewport(0,0,cv.width,cv.height);
+ gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,vt);
+ gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,video);
+ if(fieldDirty){gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,ft);gl.texImage2D(gl.TEXTURE_2D,0,gl.RG32F,N,N,0,gl.RG,gl.FLOAT,field);fieldDirty=false}
+ gl.uniform2f(U.res,vw,vh);gl.uniform2f(U.c1,...trk.c1);gl.uniform2f(U.a1,...trk.a1);
+ gl.uniform1f(U.s,trk.s);gl.uniform1f(U.ca,trk.ca);gl.uniform1f(U.sa,trk.sa);
+ gl.uniform1f(U.amt,$('amt').value/100);gl.uniform1f(U.split,$('split').value/100);gl.uniform1i(U.on,showOrig?0:1);
+ gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+}
+// ---------- Tracking transform ----------
+const fidx=()=>Math.floor(video.currentTime*fps+.01);
+function updTrk(){
+ if(!anchors||!tracks.length){trk={c1:anchors?anchors.a1:[0,0],a1:anchors?anchors.a1:[0,0],s:1,ca:1,sa:0};return}
+ let i=Math.min(Math.max(fidx(),0),tracks.length-1),t=tracks[i];
+ if(!t){for(let k=1;k<tracks.length&&!t;k++)t=tracks[i-k]||tracks[i+k]}
+ if(!t)return;
+ let s=1,th=0;
+ if(anchors.two){const vc=[t[2]-t[0],t[3]-t[1]],va=[anchors.a2[0]-anchors.a1[0],anchors.a2[1]-anchors.a1[1]];
+  const lc=Math.hypot(...vc),la=Math.hypot(...va);
+  if(lc>1){s=Math.min(1.4,Math.max(.7,la/lc));th=Math.atan2(va[1],va[0])-Math.atan2(vc[1],vc[0])}}
+ trk={c1:[t[0],t[1]],a1:anchors.a1,s,ca:Math.cos(th),sa:Math.sin(th)};
+}
+const toRest=p=>{const dx=p[0]-trk.c1[0],dy=p[1]-trk.c1[1];return[trk.a1[0]+trk.s*(trk.ca*dx-trk.sa*dy),trk.a1[1]+trk.s*(trk.sa*dx+trk.ca*dy)]};
+const vecRest=v=>[trk.s*(trk.ca*v[0]-trk.sa*v[1]),trk.s*(trk.sa*v[0]+trk.ca*v[1])];
+// ---------- Brush ----------
+function dab(c,mode,R,k,soft,delta){
+ const x0=Math.max(0,Math.floor((c[0]-R)/vw*N)),x1=Math.min(N-1,Math.ceil((c[0]+R)/vw*N));
+ const y0=Math.max(0,Math.floor((c[1]-R)/vh*N)),y1=Math.min(N-1,Math.ceil((c[1]+R)/vh*N));
+ const lim=R*.5,tmp=mode==='smooth'?field.slice():null;
+ for(let j=y0;j<=y1;j++)for(let i=x0;i<=x1;i++){
+  const qx=(i+.5)/N*vw,qy=(j+.5)/N*vh,dx=qx-c[0],dy=qy-c[1],r=Math.hypot(dx,dy);if(r>=R)continue;
+  const t=1-r/R,e=Math.min(1,t/Math.max(.05,soft)),f=e*e*(3-2*e),o=(j*N+i)*2;
+  if(mode==='grow'){field[o]-=dx*k*f;field[o+1]-=dy*k*f}
+  else if(mode==='shrink'){field[o]+=dx*k*f;field[o+1]+=dy*k*f}
+  else if(mode==='push'){field[o]-=delta[0]*k*f;field[o+1]-=delta[1]*k*f}
+  else{let ax=0,ay=0,n=0;for(const[a,b]of[[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[1,1],[-1,1],[1,-1]]){const ii=i+a,jj=j+b;if(ii<0||jj<0||ii>=N||jj>=N)continue;ax+=tmp[(jj*N+ii)*2];ay+=tmp[(jj*N+ii)*2+1];n++}
+   const m=Math.min(1,k*f*12);field[o]+=(ax/n-field[o])*m;field[o+1]+=(ay/n-field[o+1])*m}
+  const mg=Math.hypot(field[o],field[o+1]);if(mg>lim){field[o]*=lim/mg;field[o+1]*=lim/mg}
+ }
+ fieldDirty=true;
+}
+const radius=()=>$('size').value/100*vw*.25;
+let down=false,last=null,pos=null,timer=null;
+function view(){const r=cv.getBoundingClientRect(),sc=Math.min(r.width/vw,r.height/vh);return{r,sc,ox:(r.width-vw*sc)/2,oy:(r.height-vh*sc)/2}}
+const evp=e=>{const v=view();return[(e.clientX-v.r.left-v.ox)/v.sc,(e.clientY-v.r.top-v.oy)/v.sc]};
+function strokeAt(p,delta){
+ const c=toRest(p),R=radius(),I=$('int').value/100,soft=$('soft').value/100;
+ const k=tool==='push'?I*1.2:tool==='smooth'?I*.08:I*.02;
+ dab(c,tool,R,k,soft,delta?vecRest(delta):null);
+ if(tool!=='smooth'&&dabs.length<600){dabs.push(c);if(!anchors&&dabs.length===1)aFrame=fidx()}
+}
+cv.addEventListener('pointerdown',e=>{if(!loaded||busy)return;cv.setPointerCapture(e.pointerId);down=true;if(!video.paused)video.pause();
+ undoS.push(field.slice());if(undoS.length>40)undoS.shift();redoS=[];last=pos=evp(e);
+ if(tool!=='push')strokeAt(pos);timer=setInterval(()=>{if(down&&tool!=='push')strokeAt(pos)},40);btn()});
+cv.addEventListener('pointermove',e=>{if(!loaded)return;pos=evp(e);cur(e);
+ if(down&&tool==='push'){const d=[pos[0]-last[0],pos[1]-last[1]];if(Math.hypot(...d)>1){strokeAt(pos,d);last=pos}}});
+const up=()=>{if(!down)return;down=false;clearInterval(timer);if(dabs.length&&!tracks.length)say('Região pintada. Clique em “Rastrear região” para acompanhar o movimento.');btn()};
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+cv.addEventListener('pointerleave',()=>{$('cur').style.display='none'});
+function cur(e){const v=view(),d=radius()*2*v.sc,c=$('cur'),sr=$('stage').getBoundingClientRect();
+ c.style.display='block';c.style.width=c.style.height=d+'px';c.style.left=(e.clientX-sr.left-d/2)+'px';c.style.top=(e.clientY-sr.top-d/2)+'px'}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tool=b.dataset.t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===b))});
+[['size','vs'],['int','vi'],['soft','vf'],['amt','va']].forEach(([a,b])=>$(a).oninput=()=>$(b).textContent=$(a).value);
+// ---------- Undo/redo ----------
+function btn(){$('undo').disabled=!undoS.length;$('redo').disabled=!redoS.length}
+$('undo').onclick=()=>{if(!undoS.length)return;redoS.push(field.slice());field=undoS.pop();fieldDirty=true;btn()};
+$('redo').onclick=()=>{if(!redoS.length)return;undoS.push(field.slice());field=redoS.pop();fieldDirty=true;btn()};
+addEventListener('keydown',e=>{if(busy)return;if((e.ctrlKey||e.metaKey)&&e.key==='z'){e.preventDefault();$('undo').click()}
+ if((e.ctrlKey||e.metaKey)&&(e.key==='y'||(e.shiftKey&&e.key==='Z'))){e.preventDefault();$('redo').click()}
+ if(e.key==='m'&&e.target.tagName!=='INPUT')$('mkb').click()});
+$('rst').onclick=()=>{field=new Float32Array(N*N*2);undoS=[];redoS=[];dabs=[];anchors=null;tracks=[];fieldDirty=true;btn();say('Tudo limpo.')};
+$('cmp').onclick=()=>{showOrig=!showOrig;$('cmp').classList.toggle('on',showOrig);$('cmp').textContent=showOrig?'Mostrando ANTES':'Antes / Depois'};
+// ---------- Import ----------
+$('imp').onclick=()=>$('file').click();
+$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;srcFile=f;
+ video.src=URL.createObjectURL(f);await new Promise(r=>video.onloadedmetadata=r);
+ vw=video.videoWidth;vh=video.videoHeight;cv.width=vw;cv.height=vh;
+ if(!prog)initGL();loaded=true;$('empty').style.display='none';
+ $('rst').click();markers=[];renderMarks();video.currentTime=0;say('Detectando taxa de quadros…');await detectFps();
+ say(`Vídeo ${vw}×${vh} a ${fps} fps. Escolha uma ferramenta e pinte sobre a região.`)};
+function detectFps(){return new Promise(res=>{
+ if(!video.requestVideoFrameCallback)return res();
+ let l=null,m=9,n=0,done=false;const fin=()=>{if(done)return;done=true;video.pause();video.currentTime=0;
+  if(m<9){const f=1/m,c=[24,25,30,48,50,60,120].reduce((a,b)=>Math.abs(b-f)<Math.abs(a-f)?b:a);fps=Math.abs(c-f)<2?c:Math.round(f)}res()};
+ const cb=(t,md)=>{if(l!=null){const d=md.mediaTime-l;if(d>.003&&d<m)m=d}l=md.mediaTime;if(++n<14&&!done)video.requestVideoFrameCallback(cb);else fin()};
+ video.muted=true;video.requestVideoFrameCallback(cb);video.play().catch(fin);setTimeout(fin,1800)})}
+// ---------- Timeline ----------
+const fmt=t=>`${Math.floor(t/60)}:${(t%60).toFixed(2).padStart(5,'0')}`;
+$('play').onclick=async()=>{if(!loaded)return;if(video.paused){video.muted=false;video.playbackRate=+$('spd').value;video.play()}else video.pause()};
+video.onplay=()=>$('play').textContent='⏸ Pausar';video.onpause=()=>$('play').textContent='▶ Play';
+$('spd').onchange=()=>video.playbackRate=+$('spd').value;
+const step=d=>{if(!loaded)return;video.pause();video.currentTime=Math.min(video.duration,Math.max(0,(fidx()+d+.5)/fps))};
+$('fb').onclick=()=>step(-1);$('ff').onclick=()=>step(1);
+$('scr').oninput=()=>{if(loaded)video.currentTime=$('scr').value/1000*video.duration};
+$('mkb').onclick=()=>{if(!loaded)return;markers.push(video.currentTime);renderMarks()};
+function renderMarks(){$('mk').innerHTML='';markers.forEach((t,i)=>{const m=document.createElement('i');m.style.left=(t/video.duration*100)+'%';m.title='Marcador '+(i+1)+' — '+fmt(t);m.onclick=()=>video.currentTime=t;m.oncontextmenu=e=>{e.preventDefault();markers.splice(i,1);renderMarks()};$('mk').appendChild(m)})}
+function ui(){if(loaded){$('scr').value=video.currentTime/video.duration*1000||0;$('tm').textContent=fmt(video.currentTime)+' / '+fmt(video.duration||0)+'  · quadro '+fidx();
+ const sl=$('sl'),s=+$('split').value;if(s>0){const v=view();sl.style.display='block';sl.style.left=(v.ox+vw*v.sc*s/100)+'px'}else sl.style.display='none'}}
+// ---------- Tracking (optical-flow style block matching on 2 patches) ----------
+const W=240;let H=0;const sc=document.createElement('canvas'),sx=sc.getContext('2d',{willReadFrequently:true});
+async function seek(t){if(Math.abs(video.currentTime-t)<1e-4)return;video.currentTime=t;await new Promise(r=>{video.addEventListener('seeked',()=>r(),{once:true});setTimeout(r,3000)})}
+async function gray(i){await seek((i+.5)/fps);sx.drawImage(video,0,0,W,H);const d=sx.getImageData(0,0,W,H).data,g=new Uint8Array(W*H);
+ for(let k=0;k<g.length;k++)g[k]=(d[k*4]*77+d[k*4+1]*150+d[k*4+2]*29)>>8;return g}
+function sad(A,B,ax,ay,bx,by,h){if(ax-h<0||ay-h<0||ax+h>=W||ay+h>=H||bx-h<0||by-h<0||bx+h>=W||by+h>=H)return 1e9;
+ let s=0,n=0;for(let y=-h;y<=h;y+=2)for(let x=-h;x<=h;x+=2){s+=Math.abs(A[(ay+y)*W+ax+x]-B[(by+y)*W+bx+x]);n++}return s/n}
+function match(A,B,p,h,rad,pred){const bx=Math.round(pred[0]),by=Math.round(pred[1]),ax=Math.round(p[0]),ay=Math.round(p[1]),n=2*rad+1,S=new Float32Array(n*n);
+ let best=1e9,bi=0;for(let dy=-rad;dy<=rad;dy++)for(let dx=-rad;dx<=rad;dx++){const v=sad(A,B,ax,ay,bx+dx,by+dy,h);S[(dy+rad)*n+dx+rad]=v;if(v<best){best=v;bi=(dy+rad)*n+dx+rad}}
+ let ox=bi%n-rad,oy=Math.floor(bi/n)-rad,fx=0,fy=0;
+ const g=(x,y)=>(x<0||y<0||x>=n||y>=n)?null:S[y*n+x];const cx=ox+rad,cy=oy+rad;
+ const l=g(cx-1,cy),r=g(cx+1,cy),u=g(cx,cy-1),d=g(cx,cy+1);
+ if(l!=null&&r!=null&&l<1e8&&r<1e8&&l+r-2*best>.01)fx=Math.max(-.5,Math.min(.5,(l-r)/(2*(l+r-2*best))));
+ if(u!=null&&d!=null&&u<1e8&&d<1e8&&u+d-2*best>.01)fy=Math.max(-.5,Math.min(.5,(u-d)/(2*(u+d-2*best))));
+ return{p:[bx+ox+fx,by+oy+fy],err:best}}
+function mkAnchors(){const pts=dabs.slice();let mnx=1e9,mxx=-1e9,mny=1e9,mxy=-1e9;pts.forEach(p=>{mnx=Math.min(mnx,p[0]);mxx=Math.max(mxx,p[0]);mny=Math.min(mny,p[1]);mxy=Math.max(mxy,p[1])});
+ const ax=(mxx-mnx)>=(mxy-mny)?0:1;pts.sort((a,b)=>a[ax]-b[ax]);const m=pts.length>>1,avg=a=>[a.reduce((s,p)=>s+p[0],0)/a.length,a.reduce((s,p)=>s+p[1],0)/a.length];
+ const a1=avg(pts.slice(0,Math.max(1,m))),a2=avg(pts.slice(m)),two=Math.hypot(a2[0]-a1[0],a2[1]-a1[1])>vw*.05;
+ if(!two){const c=avg(pts);return{a1:c,a2:c,two:false}}return{a1,a2,two:true}}
+async function analyze(){
+ if(!dabs.length){say('Pinte primeiro sobre a região a ser rastreada.');return false}
+ busy=true;video.pause();H=Math.round(W*vh/vw);sc.width=W;sc.height=H;$('pg').style.display='block';
+ const k=W/vw;anchors=mkAnchors();tracks=[];const n=Math.max(1,Math.round(video.duration*fps)),i0=Math.min(aFrame,n-1);
+ const A=[anchors.a1.map(v=>v*k),anchors.a2.map(v=>v*k)],np=anchors.two?2:1,h=Math.max(8,Math.min(22,Math.round(radius()*k*.8)));
+ const ref=await gray(i0);const T=new Array(n);T[i0]=[...anchors.a1,...anchors.a2];
+ for(const dir of[1,-1]){let prev=ref,P=A.map(a=>a.slice()),V=[[0,0],[0,0]];
+  for(let i=i0+dir;i>=0&&i<n;i+=dir){const cur=await gray(i);const out=[];
+   for(let q=0;q<np;q++){let m=match(prev,cur,P[q],h,10,[P[q][0]+V[q][0],P[q][1]+V[q][1]]);let np_=m.p;
+    const r=match(ref,cur,A[q],h,4,np_);if(r.err<14&&m.err<30)np_=[(np_[0]+r.p[0])/2,(np_[1]+r.p[1])/2];
+    V[q]=[(np_[0]-P[q][0])*.6,(np_[1]-P[q][1])*.6];P[q]=np_;out.push(np_[0]/k,np_[1]/k)}
+   if(np===1)out.push(out[0],out[1]);T[i]=out;prev=cur;
+   if(i%3===0){$('pg').firstChild.style.width=((dir>0?(i-i0):(n-i0+i0-i))/n*100)+'%';say(`Rastreando quadro ${i}/${n}…`)}}}
+ const S=T.map((t,i)=>{let a=[0,0,0,0],c=0;for(let j=i-2;j<=i+2;j++)if(T[j]){for(let z=0;z<4;z++)a[z]+=T[j][z];c++}return a.map(v=>v/c)});
+ tracks=S;busy=false;$('pg').style.display='none';await seek((i0+.5)/fps);
+ say(`Rastreamento concluído (${np===2?'2 pontos: posição, rotação e escala':'1 ponto: posição'}). Reproduza para conferir.`);return true}
+$('trk').onclick=()=>{if(loaded&&!busy)analyze()};
+// ---------- Export (frame a frame, WebCodecs + mp4-muxer) ----------
+let expCancel=false,srcFile=null;
+const fmtS=s=>s>=60?Math.floor(s/60)+'min '+Math.round(s%60)+'s':Math.max(1,Math.round(s))+'s';
+function eprog(p,t,sub){p=Math.max(0,Math.min(100,p));$('ob').style.width=p+'%';$('op').textContent=Math.floor(p)+'%';if(t)$('ot').textContent=t;$('os').textContent=sub||''}
+$('ocan').onclick=()=>{expCancel=true;$('ot').textContent='Cancelando…'};
+const even=v=>Math.max(2,Math.round(v/2)*2);
+$('exp').onclick=async()=>{
+ if(!loaded||busy)return;
+ if(dabs.length&&!tracks.length&&!await analyze())return;
+ busy=true;expCancel=false;video.pause();$('ov').style.display='flex';eprog(0,'Preparando exportação…');
+ const ow=cv.width,oh=cv.height,t0=Date.now();let ew=vw,eh=vh;
+ if($('cap').value==='1080'){const m=Math.max(vw,vh);if(m>1920){ew=vw*1920/m;eh=vh*1920/m}}
+ cv.width=even(ew);cv.height=even(eh);
+ try{const ok=window.VideoEncoder&&window.VideoFrame&&window.Mp4Muxer;
+  const res=ok?await expFrames(cv.width,cv.height,t0):await expRealtime(t0);
+  if(res&&!expCancel){eprog(100,'Concluído. Salvando arquivo…');await save(res)}else say('Exportação cancelada.')
+ }catch(e){console.error(e);say('Falha na exportação: '+(e.message||e))}
+ cv.width=ow;cv.height=oh;$('ov').style.display='none';busy=false;video.muted=false;await seek(.001)};
+async function save(r){
+ try{const d=window.claude&&await claude.use('downloads');
+  if(d)await d.save({filename:'video-editado.'+r.ext,data:r.blob});
+  else{const a=document.createElement('a');a.href=URL.createObjectURL(r.blob);a.download='video-editado.'+r.ext;a.click()}
+  say(`Exportado (${r.ext.toUpperCase()}${r.note||''}).`)}catch(e){say('Arquivo gerado, mas o salvamento foi cancelado ou falhou.')}}
+async function expFrames(w,h,t0){
+ const n=Math.max(1,Math.round(video.duration*fps));let codec=null;
+ const bitrate=Math.round(Math.min(40e6,Math.max(6e6,w*h*fps*.12)));
+ for(const c of[['avc','avc1.640033'],['avc','avc1.64002A'],['vp9','vp09.00.51.08']]){
+  try{const s=await VideoEncoder.isConfigSupported({codec:c[1],width:w,height:h,bitrate,framerate:fps});if(s.supported){codec=c;break}}catch(e){}}
+ if(!codec)return expRealtime(t0);
+ let abuf=null,audioOK=false,note='';
+ try{if(srcFile){eprog(0,'Decodificando áudio original…');const ac=new AudioContext();abuf=await ac.decodeAudioData(await srcFile.arrayBuffer());ac.close()}}catch(e){abuf=null}
+ const ach=abuf?Math.min(2,abuf.numberOfChannels):0;
+ if(abuf&&window.AudioEncoder){try{audioOK=(await AudioEncoder.isConfigSupported({codec:'mp4a.40.2',sampleRate:abuf.sampleRate,numberOfChannels:ach,bitrate:160000})).supported}catch(e){}}
+ if(!audioOK)note=', sem áudio';
+ const target=new Mp4Muxer.ArrayBufferTarget();
+ const mux=new Mp4Muxer.Muxer({target,video:{codec:codec[0],width:w,height:h,frameRate:fps},...(audioOK?{audio:{codec:'aac',sampleRate:abuf.sampleRate,numberOfChannels:ach}}:{}),fastStart:'in-memory',firstTimestampBehavior:'offset'});
+ let err=null;
+ if(audioOK){eprog(0,'Codificando áudio…');
+  const ae=new AudioEncoder({output:(c,m)=>mux.addAudioChunk(c,m),error:e=>err=e});
+  ae.configure({codec:'mp4a.40.2',sampleRate:abuf.sampleRate,numberOfChannels:ach,bitrate:160000});
+  const sr=abuf.sampleRate;
+  for(let o=0;o<abuf.length;o+=sr){const len=Math.min(sr,abuf.length-o),d=new Float32Array(len*ach);
+   for(let c=0;c<ach;c++)d.set(abuf.getChannelData(c).subarray(o,o+len),c*len);
+   ae.encode(new AudioData({format:'f32-planar',sampleRate:sr,numberOfFrames:len,numberOfChannels:ach,timestamp:Math.round(o/sr*1e6),data:d}))}
+  await ae.flush();ae.close()}
+ const ve=new VideoEncoder({output:(c,m)=>mux.addVideoChunk(c,m),error:e=>err=e});
+ ve.configure({codec:codec[1],width:w,height:h,bitrate,framerate:fps});
+ for(let i=0;i<n;i++){
+  if(err)throw err;if(expCancel){ve.close();return null}
+  await seek((i+.5)/fps);draw();
+  const f=new VideoFrame(cv,{timestamp:Math.round(i*1e6/fps),duration:Math.round(1e6/fps)});
+  ve.encode(f,{keyFrame:i%Math.max(1,Math.round(fps))===0});f.close();
+  while(ve.encodeQueueSize>6)await new Promise(r=>setTimeout(r,4));
+  const el=(Date.now()-t0)/1000;eprog(Math.min(99,(i+1)/n*100),`Processando frame ${i+1} de ${n}…`,`Faltam ~${fmtS(el/(i+1)*(n-i-1))}`)}
+ eprog(99,'Finalizando arquivo MP4…','');await ve.flush();ve.close();if(err)throw err;mux.finalize();
+ return{blob:new Blob([target.buffer],{type:'video/mp4'}),ext:'mp4',note}}
+async function expRealtime(t0){
+ await seek(0);const cs=cv.captureStream(fps),vs=video.captureStream?video.captureStream():null;
+ if(vs)vs.getAudioTracks().forEach(t=>cs.addTrack(t));
+ const mt=['video/mp4;codecs=avc1.42E01E,mp4a.40.2','video/mp4','video/webm;codecs=vp9,opus','video/webm'].find(t=>MediaRecorder.isTypeSupported(t));
+ const rec=new MediaRecorder(cs,{mimeType:mt,videoBitsPerSecond:16e6}),ch=[];rec.ondataavailable=e=>e.data.size&&ch.push(e.data);
+ const fin=new Promise(r=>rec.onstop=r),n=Math.round(video.duration*fps);video.muted=false;video.playbackRate=1;
+ const tick=setInterval(()=>{if(expCancel)video.pause();eprog(video.currentTime/video.duration*100,`Gravando em tempo real (frame ${Math.min(n,fidx())} de ${n})…`,'Modo alternativo: sem exportação quadro a quadro neste navegador.')},250);
+ rec.start(250);await video.play();
+ await new Promise(r=>{video.addEventListener('ended',r,{once:true});video.addEventListener('pause',r,{once:true})});
+ await new Promise(r=>setTimeout(r,300));eprog(99,'Finalizando arquivo '+(mt.includes('mp4')?'MP4':'WebM')+'…');rec.stop();await fin;clearInterval(tick);
+ if(expCancel)return null;return{blob:new Blob(ch,{type:mt.split(';')[0]}),ext:mt.includes('mp4')?'mp4':'webm'}}
+// ---------- Loop ----------
+(function loop(){draw();ui();requestAnimationFrame(loop)})();btn();
+</script></body></html>
