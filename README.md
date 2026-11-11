@@ -1,6 +1,6 @@
-# Liquify Vídeo
+# Liquify
 
-Editor de vídeo no navegador para **remodelagem corporal localizada**, no estilo da ferramenta *Liquify* do Photoshop, aplicada a vídeos. Você pinta sobre uma região (por exemplo, uma panturrilha), e a deformação acompanha essa região durante o vídeo.
+Editor de **fotos e vídeos** no navegador para **remodelagem corporal localizada**, no estilo da ferramenta *Liquify* do Photoshop, aplicada a vídeos. Você pinta sobre uma região (por exemplo, uma panturrilha), e a deformação acompanha essa região durante o vídeo.
 
 Tudo roda localmente no navegador, em um único arquivo (`index.html`), sem servidor e sem enviar o vídeo para lugar nenhum.
 
@@ -13,13 +13,54 @@ Tudo roda localmente no navegador, em um único arquivo (`index.html`), sem serv
   - **Shrink:** diminui o volume da região.
   - **Push:** empurra o contorno arrastando o dedo ou o mouse.
   - **Smooth:** suaviza deformações já feitas.
-- **Pincel:** tamanho, intensidade e suavidade (borda), com visualização circular.
+- **Pincel:** tamanho, intensidade e suavidade (borda), com cursor circular que mostra o diâmetro e a zona de transição; ao ajustar tamanho ou suavidade, o círculo aparece no centro do vídeo como prévia. A mesma curva de suavização vale para Grow, Shrink, Push e Smooth.
 - **Desfazer/Refazer** por traço (`Ctrl+Z` / `Ctrl+Y`).
 - **Rastreamento da região:** acompanha dois pontos da região pintada por correspondência de blocos (estilo fluxo óptico), estimando posição, rotação e escala, com suavização temporal para o tamanho não oscilar.
 - **Linha do tempo:** reprodução, velocidade (0.25× a 2×), navegação quadro a quadro, marcadores (tecla `M`; clique longo/direito remove).
 - **Comparação:** botão *Original/Editado* e tela dividida com linha arrastável.
 - **Exportação quadro a quadro:** MP4 (H.264 + AAC) via WebCodecs e [mp4-muxer](https://github.com/Vanilagy/mp4-muxer), na resolução original ou limitada a 1080p, com a taxa de quadros e o áudio originais, barra de progresso e botão de cancelar.
 - **Mobile:** layout com vídeo no topo e barra de ferramentas embaixo, botões de pelo menos 44×44 px, ajustes numa gaveta recolhível, pintura por toque e navegação com dois dedos.
+
+## Tela inicial e modos
+
+Ao abrir, a tela inicial oferece **Importar Imagem** (JPG, PNG, WebP) e **Importar Vídeo** (MP4, WebM etc.) e depois faz um fade para o editor. Imagens usam as mesmas ferramentas, sem linha do tempo nem rastreamento, e exportam em PNG. O botão de upload no canto do vídeo volta à tela inicial para trocar de mídia.
+
+## Conferir o rastreamento
+
+Depois de **Rastrear**, o vídeo mostra os pontos seguidos (1 e 2), a linha tracejada entre eles e a trajetória: o trecho já percorrido em cor forte e o restante esmaecido. O botão de olho no canto liga e desliga essa marcação, que nunca aparece no vídeo exportado.
+
+## Instalar como app (PWA)
+
+Estrutura de arquivos na raiz do site:
+
+```
+index.html
+manifest.json
+sw.js            # opcional, habilita uso offline
+icons/
+  icon-192.png            # 192x192, purpose "any"
+  icon-512.png            # 512x512, purpose "any"
+  icon-maskable-192.png   # 192x192, purpose "maskable"
+  icon-maskable-512.png   # 512x512, purpose "maskable"
+```
+
+Os ícones incluídos são provisórios: substitua pelos seus, mantendo os nomes e tamanhos. Nos ícones *maskable*, mantenha o desenho dentro dos 80% centrais da imagem (zona segura). O PWA só instala em HTTPS (GitHub Pages serve) ou em `localhost`.
+
+Tags no `<head>` do `index.html` (já incluídas):
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#171a21">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+```
+
+No `manifest.json`, `start_url` e `scope` estão como `/`. Se o site ficar em subpasta (por exemplo, `usuario.github.io/liquify/`), troque os dois e o `id` por `./`.
+
+## Notch e barra de status
+
+O layout usa `viewport-fit=cover` e margens com `env(safe-area-inset-*)`. Em telas de toque, o topo ganha no mínimo 16 px de respiro, e o cabeçalho tem espaçamento interno próprio, então logo e botões não ficam sob o notch ou a ilha dinâmica.
 
 ## Como executar
 
@@ -89,6 +130,10 @@ O canvas usa `touch-action: none` e bloqueia o comportamento padrão de toque, e
 | Chrome / Edge (desktop e Android) | Sim | Sim |
 | Safari (iOS/macOS) | Sim | Depende da versão (WebCodecs) |
 | Firefox | Sim | Modo alternativo |
+
+## Créditos
+
+Os ícones são do [Lucide](https://lucide.dev) (licença ISC), embutidos no próprio arquivo como SVG, então não dependem de CDN.
 
 ## Licença
 
