@@ -30,7 +30,7 @@ button.on{border-color:var(--ac2);color:var(--ac2);background:#4ade8018}
 .tb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:4px 2px;min-height:54px}
 .tb .lb{font-size:11px}.tb{gap:3px}
 #stage{position:relative;min-width:0;min-height:0;background:#07080b;touch-action:none;overflow:hidden}
-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;cursor:none;touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;cursor:crosshair;touch-action:none}
 #cur{position:absolute;z-index:3;border:2px solid #fff;border-radius:50%;pointer-events:none;box-shadow:0 0 0 1px #000a;display:none}
 #cur::after{content:"";position:absolute;left:50%;top:50%;width:var(--in,0%);height:var(--in,0%);transform:translate(-50%,-50%);border:1px dashed #fffb;border-radius:50%}
 #sl{position:absolute;top:0;bottom:0;width:44px;display:none;z-index:4;touch-action:none;cursor:ew-resize}
@@ -91,6 +91,7 @@ html{background:var(--p)}[hidden]{display:none!important}
 #zoomc{position:absolute;right:8px;bottom:8px;z-index:7;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
 #zoomc button{min-width:40px;min-height:40px;width:40px;height:40px;padding:0;background:#000a;opacity:.9}
 #zpct{font-size:11px;color:var(--tx);background:#000a;border-radius:8px;padding:2px 7px;font-variant-numeric:tabular-nums}
+.img canvas{cursor:default}.img .brush-only,.img #sheet{display:none!important}.img .acts{grid-template-columns:repeat(3,1fr)}
 .img-only{display:none!important}.img .img-only{display:flex!important}
 #fsheet{display:none;position:absolute;left:0;right:0;bottom:100%;z-index:8;background:var(--p);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 30px #000a;padding:8px 16px 14px;max-height:50vh;overflow:auto;gap:4px}
 #dock.face #fsheet{display:grid}#fsheet input[type=range]{height:30px}
@@ -102,7 +103,7 @@ html{background:var(--p)}[hidden]{display:none!important}
 <div id="app">
 <header><b><svg class="i"><use href="#i-film"/></svg>Liquify</b>
 <input id="file" type="file" accept="video/*" hidden><input id="fileImg" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden>
-<button id="undo" aria-label="Desfazer"><svg class="i"><use href="#i-undo"/></svg></button><button id="redo" aria-label="Refazer"><svg class="i"><use href="#i-redo"/></svg></button>
+<button id="undo" class="brush-only" aria-label="Desfazer"><svg class="i"><use href="#i-undo"/></svg></button><button id="redo" class="brush-only" aria-label="Refazer"><svg class="i"><use href="#i-redo"/></svg></button>
 <button id="exp" class="pri"><svg class="i"><use href="#i-download"/></svg><span>Exportar</span></button></header>
 <div id="stage"><canvas id="c"></canvas><canvas id="ovc"></canvas><div id="cur"></div><div id="sl"><span class="knob"><svg class="i"><use href="#i-hmove"/></svg></span></div><div id="st"></div><div id="pg"><i></i></div>
 <div id="zoomc"><span id="zpct">100%</span><button id="zin" aria-label="Aproximar" title="Aproximar"><svg class="i"><use href="#i-zin"/></svg></button><button id="zout" aria-label="Afastar" title="Afastar"><svg class="i"><use href="#i-zout"/></svg></button><button id="zfit" aria-label="Ajustar à tela" title="Ajustar à tela (100%)"><svg class="i"><use href="#i-fit"/></svg></button></div>
@@ -132,17 +133,17 @@ html{background:var(--p)}[hidden]{display:none!important}
 <div id="bar" class="vid-only"><div id="mk"></div><input id="scr" type="range" min="0" max="1000" value="0" aria-label="Linha do tempo"></div>
 <div class="g5 vid-only"><button id="play" class="pri" aria-label="Reproduzir"><svg class="i"><use href="#i-play"/></svg></button><button id="fb" aria-label="Quadro anterior"><svg class="i"><use href="#i-back"/></svg></button><button id="ff" aria-label="Próximo quadro"><svg class="i"><use href="#i-fwd"/></svg></button><button id="mkb" aria-label="Marcador"><svg class="i"><use href="#i-flag"/></svg></button>
 <select id="spd" aria-label="Velocidade"><option value=".25">0.25x</option><option value=".5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option></select></div>
-<div class="g4">
+<div class="g4 brush-only">
 <button class="tb on" data-t="grow"><svg class="i"><use href="#i-plus"/></svg><span class="lb">Grow</span></button>
 <button class="tb" data-t="shrink"><svg class="i"><use href="#i-minus"/></svg><span class="lb">Shrink</span></button>
 <button class="tb" data-t="push"><svg class="i"><use href="#i-move"/></svg><span class="lb">Push</span></button>
 <button class="tb" data-t="smooth"><svg class="i"><use href="#i-waves"/></svg><span class="lb">Smooth</span></button></div>
-<div class="g4">
+<div class="g4 acts">
 <button class="tb img-only" data-t="face"><svg class="i"><use href="#i-face"/></svg><span class="lb">Rosto</span></button>
 <button class="tb vid-only" id="trk"><svg class="i"><use href="#i-target"/></svg><span class="lb">Rastrear</span></button>
 <button class="tb" id="cmp"><svg class="i"><use href="#i-contrast"/></svg><span class="lb">Editado</span></button>
 <button class="tb" id="spl"><svg class="i"><use href="#i-cols"/></svg><span class="lb">Dividir</span></button>
-<button class="tb" id="adj"><svg class="i"><use href="#i-sliders"/></svg><span class="lb">Ajustes</span></button></div>
+<button class="tb brush-only" id="adj"><svg class="i"><use href="#i-sliders"/></svg><span class="lb">Ajustes</span></button></div>
 </aside></div>
 <div id="land"><div class="lw">
 <div class="logo"><svg class="i"><use href="#i-film"/></svg></div>
@@ -284,7 +285,7 @@ cv.addEventListener('pointerdown',e=>{if(!loaded||busy)return;
  if(ptrs.size>=2){if(down){down=false;clearInterval(timer);if(undoS.length){field=undoS.pop();fieldDirty=true}dabs.length=strokeD0}
   fdrag=null;startG();lock=true;$('cur').style.display='none';btn();return}
  if(lock)return;
- if(tool==='face'){fdrag=hitHandle(e);return}
+ if(tool==='face'){fdrag=hitHandle(e);if(fdrag&&e.pointerType==='mouse')cv.style.cursor='grabbing';return}
  down=true;if(!video.paused)video.pause();undoS.push(field.slice());if(undoS.length>40)undoS.shift();redoS=[];strokeD0=dabs.length;last=pos=evp(e);cur(e);
  if(tool!=='push')strokeAt(pos);timer=setInterval(()=>{if(down&&tool!=='push')strokeAt(pos)},40);btn()});
 cv.addEventListener('pointermove',e=>{if(!loaded)return;
@@ -292,10 +293,11 @@ cv.addEventListener('pointermove',e=>{if(!loaded)return;
  if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,[e.clientX,e.clientY]);
  if(gst&&ptrs.size>=2){moveG();return}
  pos=evp(e);if(fdrag){face.h[fdrag]=pos.slice();face.mesh=null;return}
+ if(e.pointerType==='mouse'&&tool==='face'&&!spaceDown)cv.style.cursor=hitHandle(e)?'grab':'';
  if(e.pointerType==='mouse'||down)cur(e);
  if(down&&tool==='push'){const d=[pos[0]-last[0],pos[1]-last[1]];if(Math.hypot(...d)>1){strokeAt(pos,d);last=pos}}});
 const up=e=>{if(pd){pd=null;cv.style.cursor=spaceDown?'grab':'';return}
- ptrs.delete(e.pointerId);if(ptrs.size<2)gst=null;if(ptrs.size===0)lock=false;fdrag=null;
+ ptrs.delete(e.pointerId);if(fdrag&&!spaceDown)cv.style.cursor='';if(ptrs.size<2)gst=null;if(ptrs.size===0)lock=false;fdrag=null;
  if(e.pointerType!=='mouse')$('cur').style.display='none';
  if(!down)return;down=false;clearInterval(timer);
  if(dabs.length&&!tracks.length&&!isImg)say('Região pintada. Toque em “Rastrear” para acompanhar o movimento.');btn()};
@@ -348,12 +350,14 @@ function drawFace(x,v){const X=p=>v.ox+p[0]*v.sc,Y=p=>v.oy+p[1]*v.sc,h=face.h;x.
  if(face.mesh)face.mesh.forEach(m=>poly(m.p,m.c));
  else{poly([h.jawL,h.chin,h.jawR]);poly([h.mouthL,h.mouthC,h.mouthR]);poly([h.noseL,h.noseR]);const D=Math.hypot(h.eyeR[0]-h.eyeL[0],h.eyeR[1]-h.eyeL[1]);[h.eyeL,h.eyeR].forEach(c=>{x.beginPath();x.arc(X(c),Y(c),D*.16*v.sc,0,7);x.stroke()})}
  x.globalAlpha=1;for(const k in h){const p=h[k];x.fillStyle=GC[k];x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.arc(X(p),Y(p),7,0,7);x.fill();x.stroke()}}
-function setTool(t){tool=t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t===t));const f=t==='face';
+const row2=document.querySelector('#sheet .row2');
+function photoPanel(open){$('dock').classList.toggle('face',open);document.querySelector('[data-t="face"]').classList.toggle('on',open)}
+function setTool(t){if(isImg)t='face';tool=t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t===t));const f=t==='face';
  $('dock').classList.toggle('face',f);if(f){$('dock').classList.remove('open');$('cur').style.display='none';if(!face)detectFace()}}
 document.querySelectorAll('[data-f]').forEach(i=>{const em=i.closest('label').querySelector('em');i.oninput=()=>{FV[i.dataset.f]=i.value/100;em.textContent=i.value};i.ondblclick=()=>{i.value=0;i.oninput()}});
 $('frs').onclick=()=>document.querySelectorAll('[data-f]').forEach(i=>{i.value=0;i.oninput()});
-$('fdet').onclick=()=>detectFace();$('fx').onclick=()=>setTool('grow');
-document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTool(b.dataset.t==='face'&&tool==='face'?'grow':b.dataset.t));
+$('fdet').onclick=()=>detectFace();$('fx').onclick=()=>photoPanel(false);
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{if(isImg){if(b.dataset.t==='face')photoPanel(!$('dock').classList.contains('face'));return}setTool(b.dataset.t)});
 [['size','vs'],['int','vi'],['soft','vf'],['amt','va']].forEach(([a,b])=>{$(a).oninput=()=>{$(b).textContent=$(a).value;if(a==='size'||a==='soft')preview()};if(a==='size'||a==='soft')$(a).addEventListener('pointerdown',preview)});
 // ---------- Undo/redo ----------
 function btn(){$('undo').disabled=!undoS.length;$('redo').disabled=!redoS.length}
@@ -377,7 +381,7 @@ $('sl').addEventListener('pointermove',e=>{if(!$('sl').hasPointerCapture(e.point
 $('file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;srcFile=f;$('lerr').textContent='';
  video.src=URL.createObjectURL(f);try{await new Promise((r,j)=>{video.onloadedmetadata=r;video.onerror=j})}catch(_){$('lerr').textContent='Não foi possível abrir este vídeo (formato ou codec não suportado).';return}
  vw=video.videoWidth;vh=video.videoHeight;cv.width=vw;cv.height=vh;
- if(!prog)initGL();loaded=true;isImg=false;imgEl=null;face=null;faceTok++;if(tool==='face')setTool('grow');zoom=1;pan=[0,0];clampView();$('app').classList.remove('img');$('land').classList.add('hide');$('landback').hidden=false;
+ if(!prog)initGL();loaded=true;isImg=false;imgEl=null;face=null;faceTok++;$('sheet').appendChild(row2);setTool('grow');zoom=1;pan=[0,0];clampView();$('app').classList.remove('img');$('land').classList.add('hide');$('landback').hidden=false;
  $('rst').click();markers=[];renderMarks();video.currentTime=0;say('Detectando taxa de quadros…');await detectFps();
  say(`Vídeo ${vw}×${vh} a ${fps} fps. Escolha uma ferramenta e pinte sobre a região.`)};
 $('fileImg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;$('lerr').textContent='';
@@ -388,7 +392,7 @@ $('fileImg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!
  video.pause();video.removeAttribute('src');video.load();
  isImg=true;imgEl=oc;imgUp=false;vw=oc.width;vh=oc.height;cv.width=vw;cv.height=vh;
  if(!prog)initGL();loaded=true;face=null;faceTok++;zoom=1;pan=[0,0];clampView();$('app').classList.add('img');$('land').classList.add('hide');$('landback').hidden=false;
- $('rst').click();$('frs').click();markers=[];renderMarks();if(tool==='face')detectFace();say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
+ $('rst').click();$('frs').click();markers=[];renderMarks();$('fsheet').appendChild(row2);setTool('face');say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
 function detectFps(){return new Promise(res=>{
  if(!video.requestVideoFrameCallback)return res();
  let l=null,m=9,n=0,done=false;const fin=()=>{if(done)return;done=true;video.pause();video.currentTime=0;
