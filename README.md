@@ -21,6 +21,20 @@ Tudo roda localmente no navegador, em um único arquivo (`index.html`), sem serv
 - **Exportação quadro a quadro:** MP4 (H.264 + AAC) via WebCodecs e [mp4-muxer](https://github.com/Vanilagy/mp4-muxer), na resolução original ou limitada a 1080p, com a taxa de quadros e o áudio originais, barra de progresso e botão de cancelar.
 - **Mobile:** layout com vídeo no topo e barra de ferramentas embaixo, botões de pelo menos 44×44 px, ajustes numa gaveta recolhível, pintura por toque e navegação com dois dedos.
 
+## Zoom e deslocamento
+
+Funciona em vídeo e foto, e a pintura, o cursor, os pontos de rastreio e os pontos do rosto seguem as coordenadas reais da imagem em qualquer zoom.
+
+| Ação | Celular | Computador |
+| --- | --- | --- |
+| Zoom | Pinça com dois dedos | Roda do mouse (centrado no cursor) ou botões **+** / **−** |
+| Mover | Arrastar com dois dedos | Botão direito ou `Espaço` + arrastar |
+| Ajustar à tela | Botão de enquadrar | Botão de enquadrar |
+
+## Rosto (modo foto)
+
+A ferramenta **Rosto** detecta o rosto com o [MediaPipe Face Landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker) (carregado de CDN, precisa de internet e de um site em HTTP/HTTPS) e mostra contornos e 10 pontos-guia. Os controles de **-100 a +100** (queixo, sorriso, lábios, maxilar, olhos, nariz) deformam a foto em tempo real no shader. Se o rosto não for detectado, os pontos aparecem num modelo padrão e podem ser arrastados até os olhos, nariz, boca, queixo e mandíbula. O botão de olho mostra ou esconde os pontos. Dois toques rápidos num controle voltam ao zero.
+
 ## Tela inicial e modos
 
 Ao abrir, a tela inicial oferece **Importar Imagem** (JPG, PNG, WebP) e **Importar Vídeo** (MP4, WebM etc.) e depois faz um fade para o editor. Imagens usam as mesmas ferramentas, sem linha do tempo nem rastreamento, e exportam em PNG. O botão de upload no canto do vídeo volta à tela inicial para trocar de mídia.
@@ -43,6 +57,21 @@ icons/
   icon-maskable-192.png   # 192x192, purpose "maskable"
   icon-maskable-512.png   # 512x512, purpose "maskable"
 ```
+
+Os ícones incluídos são provisórios: substitua pelos seus, mantendo os nomes e tamanhos. Nos ícones *maskable*, mantenha o desenho dentro dos 80% centrais da imagem (zona segura). O PWA só instala em HTTPS (GitHub Pages serve) ou em `localhost`.
+
+Tags no `<head>` do `index.html` (já incluídas):
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#171a21">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+```
+
+No `manifest.json`, `start_url`, `scope` e os ícones usam caminhos **relativos** (`./`), então o app abre também em subpastas, como `usuario.github.io/liquify/`. Se você colocar os ícones na raiz, ajuste os caminhos para `./icon-192.png` etc. O `sw.js` guarda a tela inicial em cache e a serve sem depender de parâmetros de URL.
+
 ## Notch e barra de status
 
 O layout usa `viewport-fit=cover` e margens com `env(safe-area-inset-*)`. Em telas de toque, o topo ganha no mínimo 16 px de respiro, e o cabeçalho tem espaçamento interno próprio, então logo e botões não ficam sob o notch ou a ilha dinâmica.
@@ -78,8 +107,9 @@ Para publicar, use o GitHub Pages (Settings → Pages → branch `main`, pasta `
 
 | Gesto | Ação |
 | --- | --- |
-| Um dedo no vídeo | Pintar com a ferramenta selecionada |
-| Dois dedos arrastando na horizontal | Voltar/avançar quadro a quadro (o traço em andamento é cancelado) |
+| Um dedo no vídeo | Pintar com a ferramenta selecionada (ou arrastar um ponto do rosto) |
+| Pinça com dois dedos | Aproximar e afastar (o traço em andamento é cancelado) |
+| Dois dedos arrastando | Mover a área visível |
 | Arrastar a linha verde | Mover a divisão Antes/Depois |
 
 O canvas usa `touch-action: none` e bloqueia o comportamento padrão de toque, então pintar não rola nem dá zoom na página.
@@ -100,7 +130,7 @@ O canvas usa `touch-action: none` e bloqueia o comportamento padrão de toque, e
 - **Exportação:** exige WebCodecs (Chrome/Edge atuais). Em outros navegadores o app faz um modo alternativo, gravando em tempo real, em MP4 ou WebM conforme o suporte. Vídeos muito longos ou em 4K consomem bastante memória.
 - Se o áudio não puder ser decodificado, o MP4 sai sem som.
 
-## Próximos passos
+## Próximos passos sugeridos
 
 - Ancorar a região em pontos da perna com **MediaPipe Pose**.
 - Segmentação da pessoa para proteger o fundo.
