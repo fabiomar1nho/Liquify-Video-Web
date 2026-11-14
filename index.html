@@ -87,8 +87,17 @@ html{background:var(--p)}[hidden]{display:none!important}
 .fine{display:flex;gap:6px;align-items:center;color:var(--mu);font-size:12px;text-align:left}.fine .i{width:14px;height:14px}
 #lerr{color:#f87171;min-height:1.2em;font-size:13px}
 @media(min-width:700px){.opts{grid-template-columns:1fr 1fr}.opt{grid-template-columns:1fr;align-content:start;min-height:190px}.chev{display:none}}
+
+#zoomc{position:absolute;right:8px;bottom:8px;z-index:7;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+#zoomc button{min-width:40px;min-height:40px;width:40px;height:40px;padding:0;background:#000a;opacity:.9}
+#zpct{font-size:11px;color:var(--tx);background:#000a;border-radius:8px;padding:2px 7px;font-variant-numeric:tabular-nums}
+.img-only{display:none!important}.img .img-only{display:flex!important}
+#fsheet{display:none;position:absolute;left:0;right:0;bottom:100%;z-index:8;background:var(--p);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 30px #000a;padding:8px 16px 14px;max-height:50vh;overflow:auto;gap:4px}
+#dock.face #fsheet{display:grid}#fsheet input[type=range]{height:30px}
+#fst{font-size:12px;color:var(--mu);line-height:1.4;min-height:2.6em}
+@media(min-width:700px){#fsheet{position:static;box-shadow:none;border:0;padding:0;max-height:none;border-radius:0;order:5}#fx{display:none}}
 </style></head><body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></symbol><symbol id="i-fwd" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/></symbol><symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></symbol><symbol id="i-cols" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></symbol><symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></symbol><symbol id="i-hmove" viewBox="0 0 24 24"><path d="m18 8 4 4-4 4"/><path d="M2 12h20"/><path d="m6 8-4 4 4 4"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol><symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></symbol><symbol id="i-fwd" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/></symbol><symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></symbol><symbol id="i-cols" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></symbol><symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></symbol><symbol id="i-hmove" viewBox="0 0 24 24"><path d="m18 8 4 4-4 4"/><path d="M2 12h20"/><path d="m6 8-4 4 4 4"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol><symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol><symbol id="i-zin" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></symbol><symbol id="i-zout" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="8" x2="14" y1="11" y2="11"/></symbol><symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-face" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol></defs></svg>
 
 <div id="app">
 <header><b><svg class="i"><use href="#i-film"/></svg>Liquify</b>
@@ -96,7 +105,8 @@ html{background:var(--p)}[hidden]{display:none!important}
 <button id="undo" aria-label="Desfazer"><svg class="i"><use href="#i-undo"/></svg></button><button id="redo" aria-label="Refazer"><svg class="i"><use href="#i-redo"/></svg></button>
 <button id="exp" class="pri"><svg class="i"><use href="#i-download"/></svg><span>Exportar</span></button></header>
 <div id="stage"><canvas id="c"></canvas><canvas id="ovc"></canvas><div id="cur"></div><div id="sl"><span class="knob"><svg class="i"><use href="#i-hmove"/></svg></span></div><div id="st"></div><div id="pg"><i></i></div>
-<button id="eye" class="fab vid-only on" aria-label="Mostrar ou ocultar rastreio" title="Mostrar/ocultar rastreio"><svg class="i"><use href="#i-eye"/></svg></button>
+<div id="zoomc"><span id="zpct">100%</span><button id="zin" aria-label="Aproximar" title="Aproximar"><svg class="i"><use href="#i-zin"/></svg></button><button id="zout" aria-label="Afastar" title="Afastar"><svg class="i"><use href="#i-zout"/></svg></button><button id="zfit" aria-label="Ajustar à tela" title="Ajustar à tela (100%)"><svg class="i"><use href="#i-fit"/></svg></button></div>
+<button id="eye" class="fab on" aria-label="Mostrar ou ocultar rastreio" title="Mostrar/ocultar rastreio e pontos do rosto"><svg class="i"><use href="#i-eye"/></svg></button>
 <button id="imp2" class="fab" aria-label="Trocar imagem ou vídeo" title="Trocar imagem ou vídeo"><svg class="i"><use href="#i-upload"/></svg></button></div>
 <aside id="dock">
 <div id="sheet"><div class="sh"><b>Pincel e ajustes</b><button id="adjx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div>
@@ -107,6 +117,17 @@ html{background:var(--p)}[hidden]{display:none!important}
 <input id="split" type="range" min="0" max="100" value="0" hidden>
 <div class="row2"><select id="cap" aria-label="Resolução de exportação"><option value="orig">Exportar: original</option><option value="1080">Exportar: máx. 1080p</option></select>
 <button id="rst"><svg class="i"><use href="#i-trash"/></svg><span>Limpar tudo</span></button></div></div>
+<div id="fsheet"><div class="sh"><b>Rosto</b><button id="fx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div>
+<div id="fst">Ative a ferramenta para detectar o rosto.</div>
+<div class="row2"><button id="fdet"><svg class="i"><use href="#i-face"/></svg><span>Detectar</span></button><button id="frs"><svg class="i"><use href="#i-reset"/></svg><span>Zerar</span></button></div>
+<label><span>Queixo: altura <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="chinH"></label>
+<label><span>Queixo: largura <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="chinW"></label>
+<label><span>Sorriso <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="smile"></label>
+<label><span>Lábios: volume <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="lips"></label>
+<label><span>Maxilar <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="jaw"></label>
+<label><span>Olhos: tamanho <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="eyes"></label>
+<label><span>Nariz: largura <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="nose"></label>
+</div>
 <div id="tm" class="vid-only">–</div>
 <div id="bar" class="vid-only"><div id="mk"></div><input id="scr" type="range" min="0" max="1000" value="0" aria-label="Linha do tempo"></div>
 <div class="g5 vid-only"><button id="play" class="pri" aria-label="Reproduzir"><svg class="i"><use href="#i-play"/></svg></button><button id="fb" aria-label="Quadro anterior"><svg class="i"><use href="#i-back"/></svg></button><button id="ff" aria-label="Próximo quadro"><svg class="i"><use href="#i-fwd"/></svg></button><button id="mkb" aria-label="Marcador"><svg class="i"><use href="#i-flag"/></svg></button>
@@ -117,6 +138,7 @@ html{background:var(--p)}[hidden]{display:none!important}
 <button class="tb" data-t="push"><svg class="i"><use href="#i-move"/></svg><span class="lb">Push</span></button>
 <button class="tb" data-t="smooth"><svg class="i"><use href="#i-waves"/></svg><span class="lb">Smooth</span></button></div>
 <div class="g4">
+<button class="tb img-only" data-t="face"><svg class="i"><use href="#i-face"/></svg><span class="lb">Rosto</span></button>
 <button class="tb vid-only" id="trk"><svg class="i"><use href="#i-target"/></svg><span class="lb">Rastrear</span></button>
 <button class="tb" id="cmp"><svg class="i"><use href="#i-contrast"/></svg><span class="lb">Editado</span></button>
 <button class="tb" id="spl"><svg class="i"><use href="#i-cols"/></svg><span class="lb">Dividir</span></button>
@@ -141,7 +163,7 @@ html{background:var(--p)}[hidden]{display:none!important}
 const $=id=>document.getElementById(id);
 const video=document.createElement('video');video.playsInline=true;video.preload='auto';
 const cv=$('c'),gl=cv.getContext('webgl2',{preserveDrawingBuffer:false});
-let isImg=false,imgEl=null,imgUp=false,showTrk=true;
+let isImg=false,imgEl=null,imgUp=false,showTrk=true,face=null,faceTok=0,FLm=null;const FV={chinH:0,chinW:0,smile:0,lips:0,jaw:0,eyes:0,nose:0};
 let tool='grow',N=256,field=new Float32Array(N*N*2),undoS=[],redoS=[],dabs=[],anchors=null,tracks=[],aFrame=0,fps=30,markers=[],busy=false,vw=0,vh=0,showOrig=false,loaded=false;
 let trk={c1:[0,0],a1:[0,0],s:1,ca:1,sa:0};
 const say=t=>{$('st').textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>$('st').textContent='',7000)};
@@ -151,7 +173,7 @@ const VS=`#version 300 es
 in vec2 p;out vec2 u;void main(){u=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0,1);}`;
 const FS=`#version 300 es
 precision highp float;in vec2 u;out vec4 o;
-uniform sampler2D vid,fld;uniform vec2 res,c1,a1;uniform float s,ca,sa,amt,split;uniform int on;const float N=${N}.;
+uniform sampler2D vid,fld;uniform vec2 res,c1,a1;uniform float s,ca,sa,amt,split;uniform int on;uniform vec4 fA[12],fB[12];uniform int nF;const float N=${N}.;
 vec2 F(vec2 q){vec2 uv=q/res;if(uv.x<0.||uv.y<0.||uv.x>1.||uv.y>1.)return vec2(0);
 vec2 g=uv*N-.5;ivec2 i=ivec2(floor(g));vec2 f=fract(g);ivec2 m=ivec2(int(N)-1);
 vec2 a=texelFetch(fld,clamp(i,ivec2(0),m),0).xy,b=texelFetch(fld,clamp(i+ivec2(1,0),ivec2(0),m),0).xy,
@@ -159,7 +181,9 @@ c=texelFetch(fld,clamp(i+ivec2(0,1),ivec2(0),m),0).xy,d=texelFetch(fld,clamp(i+i
 return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
 void main(){vec2 p=u*res;vec2 src=p;
 if(on==1&&u.x>=split){vec2 d0=p-c1;vec2 q=a1+s*vec2(ca*d0.x-sa*d0.y,sa*d0.x+ca*d0.y);
-vec2 r=q+F(q)*amt;vec2 e=r-a1;src=c1+(1./s)*vec2(ca*e.x+sa*e.y,-sa*e.x+ca*e.y);}
+vec2 r=q+F(q)*amt;vec2 e=r-a1;src=c1+(1./s)*vec2(ca*e.x+sa*e.y,-sa*e.x+ca*e.y);
+for(int i=0;i<12;i++){if(i>=nF)break;vec2 c=fA[i].xy;float t=clamp(1.-length(src-c)/fA[i].z,0.,1.);float w=t*t*(3.-2.*t);vec2 dr=fB[i].xy;float a=fB[i].z;
+if(fA[i].w<.5)src-=dr*a*w;else if(fA[i].w<1.5)src-=dr*dot(src-c,dr)*a*w;else src-=(src-c)*a*w;}}
 o=vec4(texture(vid,src/res).rgb,1);}`;
 let prog,U={},vt,ft;
 function initGL(){
@@ -167,7 +191,7 @@ function initGL(){
  prog=gl.createProgram();gl.attachShader(prog,mk(gl.VERTEX_SHADER,VS));gl.attachShader(prog,mk(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);gl.useProgram(prog);
  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
  const l=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
- ['vid','fld','res','c1','a1','s','ca','sa','amt','split','on'].forEach(n=>U[n]=gl.getUniformLocation(prog,n));
+ ['vid','fld','res','c1','a1','s','ca','sa','amt','split','on','fA','fB','nF'].forEach(n=>U[n]=gl.getUniformLocation(prog,n));
  const tex=(unit,f)=>{const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,t);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,f);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t};
@@ -184,6 +208,8 @@ function draw(){
  gl.uniform2f(U.res,vw,vh);gl.uniform2f(U.c1,...trk.c1);gl.uniform2f(U.a1,...trk.a1);
  gl.uniform1f(U.s,trk.s);gl.uniform1f(U.ca,trk.ca);gl.uniform1f(U.sa,trk.sa);
  gl.uniform1f(U.amt,$('amt').value/100);gl.uniform1f(U.split,$('split').value/100);gl.uniform1i(U.on,showOrig?0:1);
+ const fo=faceOps();gl.uniform1i(U.nF,fo.length);
+ if(fo.length){const A=new Float32Array(48),B=new Float32Array(48);fo.forEach((o,i)=>{A.set([o.c[0],o.c[1],o.R,o.k],i*4);B.set([o.d[0],o.d[1],o.a,0],i*4)});gl.uniform4fv(U.fA,A);gl.uniform4fv(U.fB,B)}
  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
 }
 // ---------- Tracking transform ----------
@@ -221,7 +247,7 @@ function dab(c,mode,R,k,soft,delta){
 const radius=()=>$('size').value/100*vw*.25;
 const fall=e=>e*e*e*(e*(6*e-15)+10),effSoft=()=>Math.max(.15,$('soft').value/100);
 let down=false,last=null,pos=null,timer=null;
-function view(){const r=cv.getBoundingClientRect(),sc=Math.min(r.width/vw,r.height/vh);return{r,sc,ox:(r.width-vw*sc)/2,oy:(r.height-vh*sc)/2}}
+function view(){const r=$('stage').getBoundingClientRect(),sc=Math.min(r.width/vw,r.height/vh)*zoom;return{r,sc,ox:r.width/2+pan[0]-vw*sc/2,oy:r.height/2+pan[1]-vh*sc/2}}
 const evp=e=>{const v=view();return[(e.clientX-v.r.left-v.ox)/v.sc,(e.clientY-v.r.top-v.oy)/v.sc]};
 function strokeAt(p,delta){
  const c=toRest(p),R=radius(),I=$('int').value/100,soft=effSoft();
@@ -229,36 +255,105 @@ function strokeAt(p,delta){
  dab(c,tool,R,k,soft,delta?vecRest(delta):null);
  if(tool!=='smooth'&&dabs.length<600){dabs.push(c);if(!anchors&&dabs.length===1)aFrame=fidx()}
 }
-const ptrs=new Map();let scrub=null,lock=false;
-const avgX=()=>{let t=0;ptrs.forEach(v=>t+=v);return t/ptrs.size};
-cv.addEventListener('pointerdown',e=>{if(!loaded||busy)return;cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,e.clientX);
- if(ptrs.size>=2){if(down){down=false;clearInterval(timer);if(undoS.length){field=undoS.pop();fieldDirty=true}}
-  if(!isImg){video.pause();scrub={x:avgX(),f:fidx()}}lock=true;$('cur').style.display='none';btn();return}
+let zoom=1,pan=[0,0],spaceDown=false;
+function clampView(){if(!vw)return;const r=$('stage').getBoundingClientRect();zoom=Math.min(10,Math.max(1,zoom));
+ if(zoom<=1.001){zoom=1;pan=[0,0]}else{const sc=Math.min(r.width/vw,r.height/vh)*zoom,mx=Math.max(0,(vw*sc-r.width)/2)+r.width*.3,my=Math.max(0,(vh*sc-r.height)/2)+r.height*.3;pan=[Math.max(-mx,Math.min(mx,pan[0])),Math.max(-my,Math.min(my,pan[1]))]}
+ cv.style.transform='translate('+pan[0]+'px,'+pan[1]+'px) scale('+zoom+')';$('zpct').textContent=Math.round(zoom*100)+'%'}
+function zoomAt(sx,sy,z2){const r=$('stage').getBoundingClientRect(),cx=r.width/2,cy=r.height/2;z2=Math.min(10,Math.max(1,z2));const k=z2/zoom;
+ pan=[(sx-cx)-((sx-cx)-pan[0])*k,(sy-cy)-((sy-cy)-pan[1])*k];zoom=z2;clampView()}
+const zc=()=>{const r=$('stage').getBoundingClientRect();return[r.width/2,r.height/2]};
+$('zin').onclick=()=>zoomAt(...zc(),zoom*1.4);$('zout').onclick=()=>zoomAt(...zc(),zoom/1.4);$('zfit').onclick=()=>{zoom=1;pan=[0,0];clampView()};
+$('stage').addEventListener('wheel',e=>{if(!loaded||busy)return;e.preventDefault();const r=$('stage').getBoundingClientRect(),dy=e.deltaMode===1?e.deltaY*30:e.deltaY;zoomAt(e.clientX-r.left,e.clientY-r.top,zoom*Math.exp(-dy*.0018))},{passive:false});
+addEventListener('resize',()=>{if(loaded)clampView()});
+addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)){e.preventDefault();spaceDown=true;cv.style.cursor='grab'}});
+addEventListener('keyup',e=>{if(e.code==='Space'){spaceDown=false;cv.style.cursor=''}});
+const ptrs=new Map();let gst=null,pd=null,fdrag=null,strokeD0=0,lock=false;
+const pmid=()=>{let x=0,y=0;ptrs.forEach(v=>{x+=v[0];y+=v[1]});return[x/ptrs.size,y/ptrs.size]};
+const pdist=()=>{const a=[...ptrs.values()];return Math.hypot(a[0][0]-a[1][0],a[0][1]-a[1][1])||1};
+const srel=(x,y)=>{const r=$('stage').getBoundingClientRect();return[x-r.left,y-r.top]};
+function startG(){gst={d:pdist(),m:srel(...pmid()),z:zoom,p:pan.slice()}}
+function moveG(){const m=srel(...pmid()),r=$('stage').getBoundingClientRect(),cx=r.width/2,cy=r.height/2,z2=Math.min(10,Math.max(1,gst.z*pdist()/gst.d)),k=z2/gst.z;
+ pan=[(m[0]-cx)-((gst.m[0]-cx)-gst.p[0])*k,(m[1]-cy)-((gst.m[1]-cy)-gst.p[1])*k];zoom=z2;clampView()}
+function hitHandle(e){if(!face||!showTrk)return null;const v=view();let best=null,bd=28;
+ for(const k in face.h){const p=face.h[k],d=Math.hypot(e.clientX-v.r.left-(v.ox+p[0]*v.sc),e.clientY-v.r.top-(v.oy+p[1]*v.sc));if(d<bd){bd=d;best=k}}return best}
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('pointerdown',e=>{if(!loaded||busy)return;
+ if(e.pointerType==='mouse'&&(e.button===1||e.button===2||spaceDown)){e.preventDefault();cv.setPointerCapture(e.pointerId);pd={x:e.clientX,y:e.clientY,p:pan.slice()};cv.style.cursor='grabbing';return}
+ if(e.pointerType==='mouse'&&e.button!==0)return;
+ cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(ptrs.size>=2){if(down){down=false;clearInterval(timer);if(undoS.length){field=undoS.pop();fieldDirty=true}dabs.length=strokeD0}
+  fdrag=null;startG();lock=true;$('cur').style.display='none';btn();return}
  if(lock)return;
- down=true;if(!video.paused)video.pause();undoS.push(field.slice());if(undoS.length>40)undoS.shift();redoS=[];last=pos=evp(e);cur(e);
+ if(tool==='face'){fdrag=hitHandle(e);return}
+ down=true;if(!video.paused)video.pause();undoS.push(field.slice());if(undoS.length>40)undoS.shift();redoS=[];strokeD0=dabs.length;last=pos=evp(e);cur(e);
  if(tool!=='push')strokeAt(pos);timer=setInterval(()=>{if(down&&tool!=='push')strokeAt(pos)},40);btn()});
-cv.addEventListener('pointermove',e=>{if(!loaded)return;if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,e.clientX);
- if(scrub){const df=Math.round((avgX()-scrub.x)/6);video.currentTime=Math.min(video.duration,Math.max(0,(scrub.f+df+.5)/fps));return}
- pos=evp(e);if(e.pointerType==='mouse'||down)cur(e);
+cv.addEventListener('pointermove',e=>{if(!loaded)return;
+ if(pd){pan=[pd.p[0]+e.clientX-pd.x,pd.p[1]+e.clientY-pd.y];clampView();return}
+ if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,[e.clientX,e.clientY]);
+ if(gst&&ptrs.size>=2){moveG();return}
+ pos=evp(e);if(fdrag){face.h[fdrag]=pos.slice();face.mesh=null;return}
+ if(e.pointerType==='mouse'||down)cur(e);
  if(down&&tool==='push'){const d=[pos[0]-last[0],pos[1]-last[1]];if(Math.hypot(...d)>1){strokeAt(pos,d);last=pos}}});
-const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)scrub=null;if(ptrs.size===0)lock=false;
+const up=e=>{if(pd){pd=null;cv.style.cursor=spaceDown?'grab':'';return}
+ ptrs.delete(e.pointerId);if(ptrs.size<2)gst=null;if(ptrs.size===0)lock=false;fdrag=null;
  if(e.pointerType!=='mouse')$('cur').style.display='none';
  if(!down)return;down=false;clearInterval(timer);
- if(dabs.length&&!tracks.length)say('Região pintada. Toque em “Rastrear” para acompanhar o movimento.');btn()};
+ if(dabs.length&&!tracks.length&&!isImg)say('Região pintada. Toque em “Rastrear” para acompanhar o movimento.');btn()};
 cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
 cv.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')$('cur').style.display='none'});
 ['touchstart','touchmove','touchend'].forEach(n=>cv.addEventListener(n,e=>e.preventDefault(),{passive:false}));
 document.addEventListener('gesturestart',e=>e.preventDefault());
 let pvT=null;
 function curAt(sx,sy){const v=view(),R=radius()/trk.s*v.sc,soft=effSoft(),c=$('cur'),inn=Math.max(0,1-soft),st=[];
- for(let k=0;k<=6;k++){const r=inn+k/6*soft;st.push(`rgba(255,255,255,${(.38*fall(1-k/6)).toFixed(3)}) ${(r*100).toFixed(1)}%`)}
- c.style.background=`radial-gradient(circle closest-side,rgba(255,255,255,.38) 0%,${st.join(',')})`;c.style.setProperty('--in',(inn*100).toFixed(1)+'%');
+ for(let k=0;k<=6;k++){const r=inn+k/6*soft;st.push('rgba(255,255,255,'+(.38*fall(1-k/6)).toFixed(3)+') '+(r*100).toFixed(1)+'%')}
+ c.style.background='radial-gradient(circle closest-side,rgba(255,255,255,.38) 0%,'+st.join(',')+')';c.style.setProperty('--in',(inn*100).toFixed(1)+'%');
  c.style.display='block';c.style.width=c.style.height=(2*R)+'px';c.style.left=(sx-R)+'px';c.style.top=(sy-R)+'px'}
-function cur(e){const sr=$('stage').getBoundingClientRect();curAt(e.clientX-sr.left,e.clientY-sr.top)}
-function preview(){if(!loaded)return;const sr=$('stage').getBoundingClientRect();let bottom=sr.bottom;
+function cur(e){if(tool==='face'){$('cur').style.display='none';return}const sr=$('stage').getBoundingClientRect();curAt(e.clientX-sr.left,e.clientY-sr.top)}
+function preview(){if(!loaded||tool==='face')return;const sr=$('stage').getBoundingClientRect();let bottom=sr.bottom;
  if($('dock').classList.contains('open')&&getComputedStyle($('sheet')).position==='absolute')bottom=Math.min(bottom,$('sheet').getBoundingClientRect().top);
  curAt(sr.width/2,(bottom-sr.top)/2);clearTimeout(pvT);pvT=setTimeout(()=>{if(!down)$('cur').style.display='none'},2000)}
-document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tool=b.dataset.t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x===b))});
+// ---------- Face ----------
+const GC={eyeL:'#22d3ee',eyeR:'#22d3ee',noseL:'#fbbf24',noseR:'#fbbf24',mouthL:'#f472b6',mouthR:'#f472b6',mouthC:'#f472b6',chin:'#4ade80',jawL:'#4ade80',jawR:'#4ade80'};
+const OVAL=[10,338,297,332,284,251,389,356,454,323,361,288,397,365,379,378,400,377,152,148,176,149,150,136,172,58,132,93,234,127,162,21,54,103,67,109],
+LIPS=[61,185,40,39,37,0,267,269,270,409,291,375,321,405,314,17,84,181,91,146],
+EYA=[33,7,163,144,145,153,154,155,133,173,157,158,159,160,161,246],EYB=[362,382,381,380,374,373,390,249,263,466,388,387,386,385,384,398],
+BRA=[70,63,105,66,107],BRB=[336,296,334,293,300];
+async function loadFaceLib(){if(FLm)return FLm;const B='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+ const m=await import(B+'/vision_bundle.mjs'),fs=await m.FilesetResolver.forVisionTasks(B+'/wasm');
+ const M='https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
+ for(const d of['GPU','CPU']){try{FLm=await m.FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:M,delegate:d},runningMode:'IMAGE',numFaces:1});return FLm}catch(err){if(d==='CPU')throw err}}}
+function defaultFace(){const f=(x,y)=>[x*vw,y*vh];face={h:{eyeL:f(.38,.40),eyeR:f(.62,.40),noseL:f(.455,.54),noseR:f(.545,.54),mouthL:f(.42,.66),mouthR:f(.58,.66),mouthC:f(.5,.665),chin:f(.5,.80),jawL:f(.30,.66),jawR:f(.70,.66)},mesh:null,auto:false}}
+async function detectFace(){if(!isImg||!imgEl)return;const tk=++faceTok,st=$('fst');st.textContent='Procurando rosto…';let ok=false;
+ try{const L=await loadFaceLib();if(tk!==faceTok)return;const res=L.detect(imgEl),lm=res.faceLandmarks&&res.faceLandmarks[0];
+  if(lm){const P=i=>[lm[i].x*vw,lm[i].y*vh],A=(...ii)=>{let x=0,y=0;ii.forEach(i=>{x+=lm[i].x;y+=lm[i].y});return[x/ii.length*vw,y/ii.length*vh]},line=(ix,c)=>({p:ix.map(P),c});
+   face={h:{eyeL:A(33,133,159,145),eyeR:A(263,362,386,374),noseL:P(129),noseR:P(358),mouthL:P(61),mouthR:P(291),mouthC:A(13,14),chin:P(152),jawL:P(172),jawR:P(397)},
+    mesh:[line(OVAL,true),line(LIPS,true),line(EYA,true),line(EYB,true),line(BRA,false),line(BRB,false)],auto:true};ok=true;
+   st.textContent='Rosto detectado. Use os controles ou arraste os pontos para refinar.'}
+  else st.textContent='Nenhum rosto detectado. Arraste os pontos para alinhar manualmente.'
+ }catch(err){console.error(err);if(tk!==faceTok)return;st.textContent='Detecção automática indisponível aqui (biblioteca ou modelo não carregou). Arraste os pontos para alinhar manualmente.'}
+ if(!ok&&tk===faceTok)defaultFace()}
+function faceOps(){if(!face||!isImg)return[];const h=face.h,S=FV,o=[],sub=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+ const e=sub(h.eyeR,h.eyeL),D=Math.hypot(e[0],e[1])||1,p=[e[0]/D,e[1]/D],d=[-p[1],p[0]],up=[-d[0],-d[1]];
+ const mw=sub(h.mouthR,h.mouthL),nw=sub(h.noseR,h.noseL),mW=Math.hypot(mw[0],mw[1])||D*.5,nW=Math.hypot(nw[0],nw[1])||D*.5;
+ const add=(c,R,k,dir,a)=>{if(Math.abs(a)>1e-4)o.push({c,R,k,d:dir,a})};
+ add(h.chin,D*.7,0,d,S.chinH*D*.3);add(h.chin,D*.75,1,p,S.chinW*.3);
+ add(h.mouthL,mW*.45,0,up,S.smile*D*.14);add(h.mouthR,mW*.45,0,up,S.smile*D*.14);
+ add(h.mouthC,mW*.55,1,d,S.lips*.35);add(h.mouthC,mW*.55,1,p,S.lips*.12);
+ add(h.jawL,D*.8,0,[-p[0],-p[1]],S.jaw*D*.18);add(h.jawR,D*.8,0,p,S.jaw*D*.18);
+ add(h.eyeL,D*.32,2,[0,0],S.eyes*.25);add(h.eyeR,D*.32,2,[0,0],S.eyes*.25);
+ add([(h.noseL[0]+h.noseR[0])/2,(h.noseL[1]+h.noseR[1])/2],nW*.9,1,p,S.nose*.25);
+ return o.slice(0,12)}
+function drawFace(x,v){const X=p=>v.ox+p[0]*v.sc,Y=p=>v.oy+p[1]*v.sc,h=face.h;x.lineJoin='round';x.lineCap='round';x.strokeStyle='#22d3ee';x.lineWidth=1.5;x.globalAlpha=.85;
+ const poly=(pts,c)=>{x.beginPath();pts.forEach((p,i)=>i?x.lineTo(X(p),Y(p)):x.moveTo(X(p),Y(p)));if(c)x.closePath();x.stroke()};
+ if(face.mesh)face.mesh.forEach(m=>poly(m.p,m.c));
+ else{poly([h.jawL,h.chin,h.jawR]);poly([h.mouthL,h.mouthC,h.mouthR]);poly([h.noseL,h.noseR]);const D=Math.hypot(h.eyeR[0]-h.eyeL[0],h.eyeR[1]-h.eyeL[1]);[h.eyeL,h.eyeR].forEach(c=>{x.beginPath();x.arc(X(c),Y(c),D*.16*v.sc,0,7);x.stroke()})}
+ x.globalAlpha=1;for(const k in h){const p=h[k];x.fillStyle=GC[k];x.strokeStyle='#fff';x.lineWidth=2;x.beginPath();x.arc(X(p),Y(p),7,0,7);x.fill();x.stroke()}}
+function setTool(t){tool=t;document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t===t));const f=t==='face';
+ $('dock').classList.toggle('face',f);if(f){$('dock').classList.remove('open');$('cur').style.display='none';if(!face)detectFace()}}
+document.querySelectorAll('[data-f]').forEach(i=>{const em=i.closest('label').querySelector('em');i.oninput=()=>{FV[i.dataset.f]=i.value/100;em.textContent=i.value};i.ondblclick=()=>{i.value=0;i.oninput()}});
+$('frs').onclick=()=>document.querySelectorAll('[data-f]').forEach(i=>{i.value=0;i.oninput()});
+$('fdet').onclick=()=>detectFace();$('fx').onclick=()=>setTool('grow');
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTool(b.dataset.t==='face'&&tool==='face'?'grow':b.dataset.t));
 [['size','vs'],['int','vi'],['soft','vf'],['amt','va']].forEach(([a,b])=>{$(a).oninput=()=>{$(b).textContent=$(a).value;if(a==='size'||a==='soft')preview()};if(a==='size'||a==='soft')$(a).addEventListener('pointerdown',preview)});
 // ---------- Undo/redo ----------
 function btn(){$('undo').disabled=!undoS.length;$('redo').disabled=!redoS.length}
@@ -271,7 +366,7 @@ $('rst').onclick=()=>{field=new Float32Array(N*N*2);undoS=[];redoS=[];dabs=[];an
 $('cmp').onclick=()=>{showOrig=!showOrig;$('cmp').classList.toggle('on',showOrig);$('cmp').querySelector('.lb').textContent=showOrig?'Original':'Editado'};
 $('cmp').querySelector('.lb').textContent='Editado';
 $('spl').onclick=()=>{const on=+$('split').value>0;$('split').value=on?0:50;$('spl').classList.toggle('on',!on)};
-$('adj').onclick=()=>$('dock').classList.toggle('open');$('adjx').onclick=()=>$('dock').classList.remove('open');
+$('adj').onclick=()=>{if(tool==='face')setTool('grow');$('dock').classList.toggle('open')};$('adjx').onclick=()=>$('dock').classList.remove('open');
 $('imp2').onclick=()=>$('land').classList.remove('hide');
 $('oVid').onclick=()=>$('file').click();$('oImg').onclick=()=>$('fileImg').click();$('landback').onclick=()=>$('land').classList.add('hide');
 $('eye').onclick=()=>{showTrk=!showTrk;$('eye').classList.toggle('on',showTrk);$('eye').innerHTML=ic(showTrk?'eye':'eyeoff')};
@@ -282,7 +377,7 @@ $('sl').addEventListener('pointermove',e=>{if(!$('sl').hasPointerCapture(e.point
 $('file').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;srcFile=f;$('lerr').textContent='';
  video.src=URL.createObjectURL(f);try{await new Promise((r,j)=>{video.onloadedmetadata=r;video.onerror=j})}catch(_){$('lerr').textContent='Não foi possível abrir este vídeo (formato ou codec não suportado).';return}
  vw=video.videoWidth;vh=video.videoHeight;cv.width=vw;cv.height=vh;
- if(!prog)initGL();loaded=true;isImg=false;imgEl=null;$('app').classList.remove('img');$('land').classList.add('hide');$('landback').hidden=false;
+ if(!prog)initGL();loaded=true;isImg=false;imgEl=null;face=null;faceTok++;if(tool==='face')setTool('grow');zoom=1;pan=[0,0];clampView();$('app').classList.remove('img');$('land').classList.add('hide');$('landback').hidden=false;
  $('rst').click();markers=[];renderMarks();video.currentTime=0;say('Detectando taxa de quadros…');await detectFps();
  say(`Vídeo ${vw}×${vh} a ${fps} fps. Escolha uma ferramenta e pinte sobre a região.`)};
 $('fileImg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;$('lerr').textContent='';
@@ -292,8 +387,8 @@ $('fileImg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!
  oc.width=Math.round(im.naturalWidth*k);oc.height=Math.round(im.naturalHeight*k);oc.getContext('2d').drawImage(im,0,0,oc.width,oc.height);
  video.pause();video.removeAttribute('src');video.load();
  isImg=true;imgEl=oc;imgUp=false;vw=oc.width;vh=oc.height;cv.width=vw;cv.height=vh;
- if(!prog)initGL();loaded=true;$('app').classList.add('img');$('land').classList.add('hide');$('landback').hidden=false;
- $('rst').click();markers=[];renderMarks();say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
+ if(!prog)initGL();loaded=true;face=null;faceTok++;zoom=1;pan=[0,0];clampView();$('app').classList.add('img');$('land').classList.add('hide');$('landback').hidden=false;
+ $('rst').click();$('frs').click();markers=[];renderMarks();if(tool==='face')detectFace();say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
 function detectFps(){return new Promise(res=>{
  if(!video.requestVideoFrameCallback)return res();
  let l=null,m=9,n=0,done=false;const fin=()=>{if(done)return;done=true;video.pause();video.currentTime=0;
@@ -310,7 +405,7 @@ $('fb').onclick=()=>step(-1);$('ff').onclick=()=>step(1);
 $('scr').oninput=()=>{if(loaded)video.currentTime=$('scr').value/1000*video.duration};
 $('mkb').onclick=()=>{if(!loaded||isImg)return;markers.push(video.currentTime);renderMarks()};
 function renderMarks(){$('mk').innerHTML='';markers.forEach((t,i)=>{const m=document.createElement('i');m.style.left=(t/video.duration*100)+'%';m.title='Marcador '+(i+1)+' — '+fmt(t);m.onclick=()=>video.currentTime=t;m.oncontextmenu=e=>{e.preventDefault();markers.splice(i,1);renderMarks()};$('mk').appendChild(m)})}
-function ui(){if(loaded){if(!isImg){$('scr').value=video.currentTime/video.duration*1000||0;$('tm').textContent=fmt(video.currentTime)+' / '+fmt(video.duration||0)+' · quadro '+fidx()+' · '+fps+' fps'}
+function ui(){$('eye').hidden=!(loaded&&(!isImg||tool==='face'));if(loaded){if(!isImg){$('scr').value=video.currentTime/video.duration*1000||0;$('tm').textContent=fmt(video.currentTime)+' / '+fmt(video.duration||0)+' · quadro '+fidx()+' · '+fps+' fps'}
  const sl=$('sl'),s=+$('split').value;if(s>0){const v=view();sl.style.display='block';sl.style.left=(v.ox+vw*v.sc*s/100-22)+'px'}else sl.style.display='none'}}
 // ---------- Tracking (optical-flow style block matching on 2 patches) ----------
 const W=240;let H=0;const sc=document.createElement('canvas'),sx=sc.getContext('2d',{willReadFrequently:true});
@@ -424,6 +519,7 @@ async function expRealtime(t0){
 function drawOv(){const c=$('ovc'),r=$('stage').getBoundingClientRect(),d=devicePixelRatio||1,w=Math.round(r.width*d),h=Math.round(r.height*d);
  if(c.width!==w||c.height!==h){c.width=w;c.height=h}
  const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,r.width,r.height);
+ if(loaded&&isImg&&tool==='face'&&face&&showTrk)drawFace(x,view());
  if(!showTrk||!loaded||isImg||!anchors||!tracks.length)return;
  const v=view(),X=p=>v.ox+p*v.sc,Y=p=>v.oy+p*v.sc,n=tracks.length,ci=Math.min(Math.max(fidx(),0),n-1),np=anchors.two?2:1,col=['#22d3ee','#f472b6'];
  x.lineJoin='round';x.lineCap='round';
@@ -438,5 +534,5 @@ function drawOv(){const c=$('ovc'),r=$('stage').getBoundingClientRect(),d=device
   x.fillStyle=col[q];x.strokeStyle='#fff';x.lineWidth=2.5;x.beginPath();x.arc(px,py,8,0,7);x.fill();x.stroke();
   x.fillStyle='#000';x.font='bold 10px system-ui,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(String(q+1),px,py+.5)}}
 (function loop(){draw();drawOv();ui();requestAnimationFrame(loop)})();btn();
-if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(_){}}
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol)){try{navigator.serviceWorker.register('./sw.js',{scope:'./'}).catch(()=>{})}catch(_){}}
 </script></body></html>
