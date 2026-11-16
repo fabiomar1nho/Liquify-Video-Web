@@ -12,7 +12,7 @@
 <title>Liquify</title>
 <script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js"></script>
 <style>
-:root{color-scheme:dark;--bg:#0f1115;--p:#171a21;--p2:#1e222b;--bd:#2a2f3a;--tx:#e6e9ef;--mu:#8b93a3;--ac:#6c8cff;--ac2:#4ade80;--h:44px;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+:root{color-scheme:dark;--bg:#0f1115;--p:#171a21;--p2:#1e222b;--bd:#2a2f3a;--tx:#e6e9ef;--mu:#8b93a3;--ac:#6c8cff;--ac2:#4ade80;--h:44px;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) 0px env(safe-area-inset-left,0px)}
 @media(pointer:coarse){:root{padding-top:max(env(safe-area-inset-top,16px),16px)}}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -36,23 +36,23 @@ canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;curso
 #sl{position:absolute;top:0;bottom:0;width:44px;display:none;z-index:4;touch-action:none;cursor:ew-resize}
 #sl::before{content:"";position:absolute;left:21px;top:0;bottom:0;width:2px;background:var(--ac2)}
 #sl .knob{position:absolute;left:7px;top:50%;margin-top:-15px;width:30px;height:30px;border-radius:50%;background:var(--ac2);color:#06210f;display:grid;place-items:center}#sl .knob .i{width:18px;height:18px}
-#st{position:absolute;left:8px;right:112px;top:8px;z-index:5;background:#000b;border-radius:8px;padding:6px 10px;font-size:12px;color:#cfd5e2;pointer-events:none}#st:empty{display:none}
+#st{position:absolute;left:8px;right:8px;top:52px;z-index:5;background:#000b;border-radius:8px;padding:6px 10px;font-size:12px;color:#cfd5e2;pointer-events:none}#st:empty{display:none}
 #pg{position:absolute;left:0;right:0;top:0;height:4px;z-index:6;background:var(--bd);display:none}#pg i{display:block;height:100%;width:0;background:var(--ac)}
 #empty{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:12px;text-align:center;padding:20px;color:var(--mu)}
 #empty small{line-height:1.6}
 .loaded #empty{inset:8px 8px auto auto;display:block;padding:0;pointer-events:none}.loaded #empty>div,.loaded #empty small,.loaded #imp2 .lb{display:none}
 .loaded #imp2{pointer-events:auto;background:#000a;border-color:var(--bd);color:var(--tx);padding:0}
-#dock{position:relative;background:var(--p);border-top:1px solid var(--bd);padding:6px 8px;display:grid;gap:6px}
+#dock{position:relative;background:var(--p);border-top:1px solid var(--bd);padding:8px 8px calc(max(env(safe-area-inset-bottom,24px),8px) + 16px);display:grid;gap:8px}
 .g4,.g5{display:grid;gap:6px}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:1.2fr 1fr 1fr 1fr 1.3fr}.g5>*{min-width:0}
 #tm{font-size:12px;color:var(--mu);font-variant-numeric:tabular-nums;text-align:center}
 #bar{position:relative;height:40px}#bar input{position:absolute;left:0;right:0;bottom:0}
 #mk{position:absolute;left:0;right:0;top:0;height:14px}#mk i{position:absolute;top:0;width:24px;margin-left:-12px;height:14px;background:linear-gradient(#fbbf24,#fbbf24) center/4px 100% no-repeat;cursor:pointer}
 input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;height:36px;width:100%;margin:0;touch-action:pan-x}
-input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:var(--bd)}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:rgba(255,255,255,.22)}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--ac);margin-top:-10px;border:2px solid #fff4}
-input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--bd)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(255,255,255,.22)}
 input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--ac);border:0}
-#sheet{display:none;position:absolute;left:0;right:0;bottom:100%;z-index:8;background:var(--p);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 30px #000a;padding:8px 16px 14px;max-height:45vh;overflow:auto;gap:4px}
+#sheet,#fsheet{display:none;position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);z-index:8;border-radius:18px;padding:8px 16px 14px;max-height:46vh;overflow:auto;gap:4px;box-shadow:0 8px 32px #0006}
 #sheet input[type=range]{height:30px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
 #dock.open #sheet{display:grid}
 .sh{display:flex;justify-content:space-between;align-items:center}
@@ -64,7 +64,7 @@ label{display:flex;flex-direction:column;color:var(--mu)}label span{display:flex
 @media(min-width:700px){
  #app{grid-template-columns:minmax(0,1fr) 300px;grid-template-rows:auto minmax(0,1fr)}
  header{grid-column:1/-1}#stage{grid-column:1;grid-row:2}
- #dock{grid-column:2;grid-row:2;border-top:0;border-left:1px solid var(--bd);overflow:auto;align-content:start;padding:12px;gap:10px}
+ #dock{grid-column:2;grid-row:2;border-top:0;border-left:1px solid var(--bd);overflow:auto;align-content:start;padding:12px 12px calc(env(safe-area-inset-bottom,0px) + 12px);gap:10px}
  #sheet{display:grid;position:static;box-shadow:none;border:0;padding:0;max-height:none;border-radius:0;order:5}
  #adj,#adjx{display:none}
 }
@@ -94,33 +94,55 @@ html{background:var(--p)}[hidden]{display:none!important}
 .img.tb-face canvas{cursor:default}.img.tb-face .brush-only,.img.tb-face #sheet{display:none!important}.img .acts{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:1fr}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--bg);border:1px solid var(--bd);border-radius:12px}.seg button{border:0;background:transparent;min-height:42px;border-radius:9px;color:var(--mu);font-weight:600}.seg button.on{background:var(--ac);color:#fff}
 .img-only{display:none!important}.img .img-only{display:flex!important}
-#fsheet{display:none;position:absolute;left:0;right:0;bottom:100%;z-index:8;background:var(--p);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;box-shadow:0 -10px 30px #000a;padding:8px 16px 14px;max-height:50vh;overflow:auto;gap:4px}
 #dock.face #fsheet{display:grid}#fsheet input[type=range]{height:30px}
 #fst{font-size:12px;color:var(--mu);line-height:1.4;min-height:2.6em}
 @media(min-width:700px){#fsheet{position:static;box-shadow:none;border:0;padding:0;max-height:none;border-radius:0;order:5}#fx{display:none}}
+
+/* ---- layout refinado: grupos, vidro, safe area ---- */
+.glass{background:rgba(18,21,28,.5);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid rgba(255,255,255,.14)}
+.glass label{color:#e6e9ef;text-shadow:0 1px 2px rgba(0,0,0,.65)}.glass .sh b,.glass #fst{text-shadow:0 1px 2px rgba(0,0,0,.65)}.glass #fst{color:#cfd5e2}
+.sh button{min-height:40px;padding:0 12px;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18)}
+.row2.one{grid-template-columns:1fr}
+.grp{display:grid;gap:6px;padding:6px;border:1px solid var(--bd);border-radius:14px;background:rgba(255,255,255,.025)}
+.gl{display:none}
+header .grp{display:flex;gap:2px;padding:2px;border-radius:12px}header .grp button{border:0;background:transparent;border-radius:10px}
+.arm{color:#f87171!important;background:#f8717122!important}
+.brand span{white-space:nowrap}@media(max-width:420px){.brand span{display:none}}
+#viewbar{position:absolute;top:8px;left:8px;z-index:7;max-width:calc(100% - 68px);display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;padding:3px;border-radius:12px}
+#viewbar button{min-width:36px;min-height:36px;width:36px;height:36px;padding:0;background:transparent;border:0;border-radius:9px}
+#viewbar button.on{background:#4ade8026;color:var(--ac2)}
+.vgrp{display:flex;align-items:center;gap:2px}.vsep{display:block;width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px;flex:none}
+#zpct{font-size:11px;min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.tools{display:flex;gap:6px;align-items:stretch}.tools .tb{flex:1;min-width:0}.tools .vsep{align-self:center;height:34px;background:var(--bd)}
+.ptrow{gap:6px;align-items:stretch}.ptrow .seg{flex:1}#fadj{min-width:46px}.img.tb-brush #fadj{display:none!important}
+@media(min-width:700px){
+ .gl{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--mu);padding:0 2px}
+ #sheet,#fsheet{position:static;left:auto;right:auto;bottom:auto;background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none;padding:0;max-height:none;border-radius:0;order:5}
+ #adjx,#fx{display:none}.glass label{text-shadow:none;color:var(--mu)}#fadj{display:none!important}
+}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol><symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5A5.5 5.5 0 0 0 9.5 20H13"/></symbol><symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol><symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol><symbol id="i-back" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></symbol><symbol id="i-fwd" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" x2="4" y1="22" y2="15"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-move" viewBox="0 0 24 24"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/></symbol><symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="22" x2="18" y1="12" y2="12"/><line x1="6" x2="2" y1="12" y2="12"/><line x1="12" x2="12" y1="6" y2="2"/><line x1="12" x2="12" y1="22" y2="18"/></symbol><symbol id="i-cols" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M12 3v18"/></symbol><symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 18a6 6 0 0 0 0-12v12z"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol><symbol id="i-film" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/></symbol><symbol id="i-hmove" viewBox="0 0 24 24"><path d="m18 8 4 4-4 4"/><path d="M2 12h20"/><path d="m6 8-4 4 4 4"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eyeoff" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/></symbol><symbol id="i-image" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol><symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-badge" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-chev" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol><symbol id="i-zin" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="11" x2="11" y1="8" y2="14"/><line x1="8" x2="14" y1="11" y2="11"/></symbol><symbol id="i-zout" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/><line x1="8" x2="14" y1="11" y2="11"/></symbol><symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></symbol><symbol id="i-face" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01"/><path d="M15 9h.01"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-brush" viewBox="0 0 24 24"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></symbol></defs></svg>
 
 <div id="app">
-<header><b><svg class="i"><use href="#i-film"/></svg>Liquify</b>
+<header><b class="brand"><svg class="i"><use href="#i-film"/></svg><span>Liquify</span></b>
 <input id="file" type="file" accept="video/*" hidden><input id="fileImg" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" hidden>
-<button id="undo" class="brush-only" aria-label="Desfazer"><svg class="i"><use href="#i-undo"/></svg></button><button id="redo" class="brush-only" aria-label="Refazer"><svg class="i"><use href="#i-redo"/></svg></button>
+<div class="grp hist"><button id="undo" class="brush-only" aria-label="Desfazer" title="Desfazer"><svg class="i"><use href="#i-undo"/></svg></button><button id="redo" class="brush-only" aria-label="Refazer" title="Refazer"><svg class="i"><use href="#i-redo"/></svg></button><button id="clr" aria-label="Limpar tudo" title="Limpar tudo (toque duas vezes)"><svg class="i"><use href="#i-trash"/></svg></button></div>
+<button id="rst" hidden aria-hidden="true"></button>
 <button id="exp" class="pri"><svg class="i"><use href="#i-download"/></svg><span>Exportar</span></button></header>
 <div id="stage"><canvas id="c"></canvas><canvas id="ovc"></canvas><div id="cur"></div><div id="sl"><span class="knob"><svg class="i"><use href="#i-hmove"/></svg></span></div><div id="st"></div><div id="pg"><i></i></div>
-<div id="zoomc"><span id="zpct">100%</span><button id="zin" aria-label="Aproximar" title="Aproximar"><svg class="i"><use href="#i-zin"/></svg></button><button id="zout" aria-label="Afastar" title="Afastar"><svg class="i"><use href="#i-zout"/></svg></button><button id="zfit" aria-label="Ajustar à tela" title="Ajustar à tela (100%)"><svg class="i"><use href="#i-fit"/></svg></button></div>
-<button id="eye" class="fab on" aria-label="Mostrar ou ocultar rastreio" title="Mostrar/ocultar rastreio e pontos do rosto"><svg class="i"><use href="#i-eye"/></svg></button>
+<div id="viewbar" class="glass"><div class="vgrp"><button id="zout" aria-label="Afastar" title="Afastar"><svg class="i"><use href="#i-zout"/></svg></button><button id="zin" aria-label="Aproximar" title="Aproximar"><svg class="i"><use href="#i-zin"/></svg></button><button id="zfit" aria-label="Ajustar à tela" title="Ajustar à tela (100%)"><svg class="i"><use href="#i-fit"/></svg></button><span id="zpct">100%</span></div>
+<i class="vsep"></i><div class="vgrp"><button id="cmp" aria-label="Alternar original e editado" title="Original / Editado"><svg class="i"><use href="#i-contrast"/></svg><span class="lb" hidden>Editado</span></button><button id="spl" aria-label="Tela dividida" title="Tela dividida"><svg class="i"><use href="#i-cols"/></svg></button><button id="eye" class="on" aria-label="Mostrar ou ocultar pontos" title="Mostrar/ocultar rastreio e pontos do rosto"><svg class="i"><use href="#i-eye"/></svg></button></div></div>
 <button id="imp2" class="fab" aria-label="Trocar imagem ou vídeo" title="Trocar imagem ou vídeo"><svg class="i"><use href="#i-upload"/></svg></button></div>
 <aside id="dock">
-<div id="ptabs" class="seg img-only" role="tablist"><button data-pt="face" class="on" role="tab"><svg class="i"><use href="#i-face"/></svg><span>Rosto</span></button><button data-pt="brush" role="tab"><svg class="i"><use href="#i-brush"/></svg><span>Pincéis</span></button></div>
-<div id="sheet"><div class="sh"><b>Pincel e ajustes</b><button id="adjx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div>
+<div id="sheet" class="glass"><div class="sh"><b>Pincel e ajustes</b><button id="adjx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg><span>Fechar</span></button></div>
 <label><span>Tamanho <em id="vs">40</em></span><input id="size" type="range" min="4" max="100" value="40"></label>
 <label><span>Intensidade <em id="vi">40</em></span><input id="int" type="range" min="1" max="100" value="40"></label>
 <label><span>Suavidade <em id="vf">70</em></span><input id="soft" type="range" min="15" max="100" value="70"></label>
 <label><span>Força total <em><i id="va" style="font-style:normal">100</i>%</em></span><input id="amt" type="range" min="0" max="200" value="100"></label>
 <input id="split" type="range" min="0" max="100" value="0" hidden>
-<div class="row2"><select id="cap" aria-label="Resolução de exportação"><option value="orig">Exportar: original</option><option value="1080">Exportar: máx. 1080p</option></select>
-<button id="rst"><svg class="i"><use href="#i-trash"/></svg><span>Limpar tudo</span></button></div></div>
-<div id="fsheet"><div class="sh"><b>Rosto</b><button id="fx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg></button></div>
+<div class="row2 one"><select id="cap" aria-label="Resolução de exportação"><option value="orig">Exportar: original</option><option value="1080">Exportar: máx. 1080p</option></select>
+</div></div>
+<div id="fsheet" class="glass"><div class="sh"><b>Rosto</b><button id="fx" aria-label="Fechar"><svg class="i"><use href="#i-x"/></svg><span>Fechar</span></button></div>
 <div id="fst">Ative a ferramenta para detectar o rosto.</div>
 <div class="row2"><button id="fdet"><svg class="i"><use href="#i-face"/></svg><span>Detectar</span></button><button id="frs"><svg class="i"><use href="#i-reset"/></svg><span>Zerar</span></button></div>
 <label><span>Queixo: altura <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="chinH"></label>
@@ -131,20 +153,21 @@ html{background:var(--p)}[hidden]{display:none!important}
 <label><span>Olhos: tamanho <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="eyes"></label>
 <label><span>Nariz: largura <em>0</em></span><input type="range" min="-100" max="100" value="0" data-f="nose"></label>
 </div>
-<div id="tm" class="vid-only">–</div>
-<div id="bar" class="vid-only"><div id="mk"></div><input id="scr" type="range" min="0" max="1000" value="0" aria-label="Linha do tempo"></div>
-<div class="g5 vid-only"><button id="play" class="pri" aria-label="Reproduzir"><svg class="i"><use href="#i-play"/></svg></button><button id="fb" aria-label="Quadro anterior"><svg class="i"><use href="#i-back"/></svg></button><button id="ff" aria-label="Próximo quadro"><svg class="i"><use href="#i-fwd"/></svg></button><button id="mkb" aria-label="Marcador"><svg class="i"><use href="#i-flag"/></svg></button>
+<div class="grp vid-only"><div class="gl">Reprodução</div>
+<div id="tm">–</div>
+<div id="bar"><div id="mk"></div><input id="scr" type="range" min="0" max="1000" value="0" aria-label="Linha do tempo"></div>
+<div class="g5"><button id="play" class="pri" aria-label="Reproduzir"><svg class="i"><use href="#i-play"/></svg></button><button id="fb" aria-label="Quadro anterior"><svg class="i"><use href="#i-back"/></svg></button><button id="ff" aria-label="Próximo quadro"><svg class="i"><use href="#i-fwd"/></svg></button><button id="mkb" aria-label="Marcador"><svg class="i"><use href="#i-flag"/></svg></button>
 <select id="spd" aria-label="Velocidade"><option value=".25">0.25x</option><option value=".5">0.5x</option><option value="1" selected>1x</option><option value="2">2x</option></select></div>
-<div class="g4 brush-only">
+</div>
+<div class="grp"><div class="gl">Ferramentas de edição</div>
+<div class="ptrow img-only"><div id="ptabs" class="seg" role="tablist"><button data-pt="face" class="on" role="tab"><svg class="i"><use href="#i-face"/></svg><span>Rosto</span></button><button data-pt="brush" role="tab"><svg class="i"><use href="#i-brush"/></svg><span>Pincéis</span></button></div><button id="fadj" aria-label="Ajustes do rosto" title="Ajustes do rosto"><svg class="i"><use href="#i-sliders"/></svg></button></div>
+<div class="tools brush-only">
 <button class="tb on" data-t="grow"><svg class="i"><use href="#i-plus"/></svg><span class="lb">Grow</span></button>
 <button class="tb" data-t="shrink"><svg class="i"><use href="#i-minus"/></svg><span class="lb">Shrink</span></button>
 <button class="tb" data-t="push"><svg class="i"><use href="#i-move"/></svg><span class="lb">Push</span></button>
-<button class="tb" data-t="smooth"><svg class="i"><use href="#i-waves"/></svg><span class="lb">Smooth</span></button></div>
-<div class="g4 acts">
+<button class="tb" data-t="smooth"><svg class="i"><use href="#i-waves"/></svg><span class="lb">Smooth</span></button><i class="vsep"></i>
 <button class="tb vid-only" id="trk"><svg class="i"><use href="#i-target"/></svg><span class="lb">Rastrear</span></button>
-<button class="tb" id="cmp"><svg class="i"><use href="#i-contrast"/></svg><span class="lb">Editado</span></button>
-<button class="tb" id="spl"><svg class="i"><use href="#i-cols"/></svg><span class="lb">Dividir</span></button>
-<button class="tb brush-only" id="adj"><svg class="i"><use href="#i-sliders"/></svg><span class="lb">Ajustes</span></button></div>
+<button class="tb" id="adj"><svg class="i"><use href="#i-sliders"/></svg><span class="lb">Ajustes</span></button></div></div>
 </aside></div>
 <div id="land"><div class="lw">
 <div class="logo"><svg class="i"><use href="#i-film"/></svg></div>
@@ -326,7 +349,7 @@ async function loadFaceLib(){if(FLm)return FLm;const B='https://cdn.jsdelivr.net
  const M='https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
  for(const d of['GPU','CPU']){try{FLm=await m.FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:M,delegate:d},runningMode:'IMAGE',numFaces:1});return FLm}catch(err){if(d==='CPU')throw err}}}
 function defaultFace(){const f=(x,y)=>[x*vw,y*vh];face={h:{eyeL:f(.38,.40),eyeR:f(.62,.40),noseL:f(.455,.54),noseR:f(.545,.54),mouthL:f(.42,.66),mouthR:f(.58,.66),mouthC:f(.5,.665),chin:f(.5,.80),jawL:f(.30,.66),jawR:f(.70,.66)},mesh:null,auto:false}}
-async function detectFace(){if(!isImg||!imgEl)return;const tk=++faceTok,st=$('fst');st.textContent='Procurando rosto…';let ok=false;
+async function detectFace(){if(!isImg||!imgEl)return;const tk=++faceTok,st={set textContent(t){$('fst').textContent=t;say(t)}};st.textContent='Procurando rosto…';let ok=false;
  try{const L=await loadFaceLib();if(tk!==faceTok)return;const res=L.detect(imgEl),lm=res.faceLandmarks&&res.faceLandmarks[0];
   if(lm){const P=i=>[lm[i].x*vw,lm[i].y*vh],A=(...ii)=>{let x=0,y=0;ii.forEach(i=>{x+=lm[i].x;y+=lm[i].y});return[x/ii.length*vw,y/ii.length*vh]},line=(ix,c)=>({p:ix.map(P),c});
    face={h:{eyeL:A(33,133,159,145),eyeR:A(263,362,386,374),noseL:P(129),noseR:P(358),mouthL:P(61),mouthR:P(291),mouthC:A(13,14),chin:P(152),jawL:P(172),jawR:P(397)},
@@ -360,10 +383,12 @@ $('frs').onclick=()=>document.querySelectorAll('[data-f]').forEach(i=>{i.value=0
 $('fdet').onclick=()=>detectFace();$('fx').onclick=()=>photoPanel(false);
 function photoTab(t){$('app').classList.toggle('tb-face',t==='face');$('app').classList.toggle('tb-brush',t==='brush');
  document.querySelectorAll('[data-pt]').forEach(b=>b.classList.toggle('on',b.dataset.pt===t));
- (t==='face'?$('fsheet'):$('sheet')).appendChild(row2);setTool(t==='face'?'face':lastBrush);$('dock').classList.remove('open')}
+ (t==='face'?$('fsheet'):$('sheet')).appendChild(row2);setTool(t==='face'?'face':lastBrush);$('dock').classList.toggle('open',t==='brush')}
+$('fadj').onclick=()=>photoPanel(!$('dock').classList.contains('face'));
+let clrT=null;$('clr').onclick=()=>{const b=$('clr');if(b.classList.contains('arm')){clearTimeout(clrT);b.classList.remove('arm');$('rst').click();$('frs').click();return}b.classList.add('arm');say('Toque de novo na lixeira para apagar todas as edições.');clrT=setTimeout(()=>b.classList.remove('arm'),3000)};
 document.querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{if(!isImg)return;const t=b.dataset.pt;
  if(t==='face'&&tool==='face'){photoPanel(!$('dock').classList.contains('face'));return}photoTab(t)});
-document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTool(b.dataset.t));
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{const same=tool===b.dataset.t,d=$('dock');setTool(b.dataset.t);d.classList.toggle('open',same?!d.classList.contains('open'):true)});
 [['size','vs'],['int','vi'],['soft','vf'],['amt','va']].forEach(([a,b])=>{$(a).oninput=()=>{$(b).textContent=$(a).value;if(a==='size'||a==='soft')preview()};if(a==='size'||a==='soft')$(a).addEventListener('pointerdown',preview)});
 // ---------- Undo/redo ----------
 function btn(){$('undo').disabled=!undoS.length;$('redo').disabled=!redoS.length}
@@ -376,7 +401,7 @@ $('rst').onclick=()=>{field=new Float32Array(N*N*2);undoS=[];redoS=[];dabs=[];an
 $('cmp').onclick=()=>{showOrig=!showOrig;$('cmp').classList.toggle('on',showOrig);$('cmp').querySelector('.lb').textContent=showOrig?'Original':'Editado'};
 $('cmp').querySelector('.lb').textContent='Editado';
 $('spl').onclick=()=>{const on=+$('split').value>0;$('split').value=on?0:50;$('spl').classList.toggle('on',!on)};
-$('adj').onclick=()=>{if(tool==='face')setTool('grow');$('dock').classList.toggle('open')};$('adjx').onclick=()=>$('dock').classList.remove('open');
+$('adj').onclick=()=>$('dock').classList.toggle('open');$('adjx').onclick=()=>$('dock').classList.remove('open');
 $('imp2').onclick=()=>$('land').classList.remove('hide');
 $('oVid').onclick=()=>$('file').click();$('oImg').onclick=()=>$('fileImg').click();$('landback').onclick=()=>$('land').classList.add('hide');
 $('eye').onclick=()=>{showTrk=!showTrk;$('eye').classList.toggle('on',showTrk);$('eye').innerHTML=ic(showTrk?'eye':'eyeoff')};
@@ -398,7 +423,7 @@ $('fileImg').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!
  video.pause();video.removeAttribute('src');video.load();
  isImg=true;imgEl=oc;imgUp=false;vw=oc.width;vh=oc.height;cv.width=vw;cv.height=vh;
  if(!prog)initGL();loaded=true;face=null;faceTok++;zoom=1;pan=[0,0];clampView();$('app').classList.add('img');$('land').classList.add('hide');$('landback').hidden=false;
- $('rst').click();$('frs').click();markers=[];renderMarks();photoTab('face');say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
+ $('rst').click();$('frs').click();markers=[];renderMarks();photoTab('face');if(!matchMedia('(min-width:700px)').matches)photoPanel(false);say(`Imagem ${vw}×${vh}. Escolha uma ferramenta e pinte sobre a região.`)};
 function detectFps(){return new Promise(res=>{
  if(!video.requestVideoFrameCallback)return res();
  let l=null,m=9,n=0,done=false;const fin=()=>{if(done)return;done=true;video.pause();video.currentTime=0;
