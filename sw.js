@@ -1,6 +1,6 @@
 // Service worker do Liquify: permite instalar como PWA e abrir a tela inicial instantaneamente, mesmo offline.
 // Todos os caminhos são relativos ao local deste arquivo, então funciona em subpastas (ex.: GitHub Pages).
-const CACHE = 'liquify-v3';
+const CACHE = 'liquify-v4';
 const ASSETS = ['./', 'index.html', 'manifest.json', 'icons/icon-192.png', 'icons/icon-512.png',
   'https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js'];
 
